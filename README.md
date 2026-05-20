@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ✨ Luxe Celebrations — Premium Decoration & Surprise Planning Platform
 
 A production-ready, full-stack luxury decoration and surprise planning web application built with Next.js 15, Node.js, and MongoDB Atlas.
@@ -388,3 +389,6 @@ MIT License — see [LICENSE](LICENSE) for details.
 ---
 
 **Built with ❤️ for unforgettable celebrations**
+=======
+# decor-website-
+>>>>>>> 08883359fa519fed7624d4b3a4f0fe80317c2a38
