@@ -7,36 +7,32 @@ import { useCityStore } from '@/store/cityStore';
 
 const CITIES = [
   {
-    name: 'Delhi NCR',
-    slug: 'delhi-ncr',
-    monument: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=300&q=80&auto=format',
+    name: 'Delhi',
+    slug: 'delhi',
     monumentName: 'India Gate',
   },
   {
     name: 'Noida',
     slug: 'noida',
-    monument: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=300&q=80&auto=format',
-    monumentName: 'Noida',
+    monumentName: 'DLF Mall of India',
   },
   {
     name: 'Gurgaon',
     slug: 'gurgaon',
-    monument: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=300&q=80&auto=format',
     monumentName: 'Cyber Hub',
   },
   {
     name: 'Faridabad',
     slug: 'faridabad',
-    monument: 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=300&q=80&auto=format',
     monumentName: 'Faridabad',
   },
 ];
 
-// Unique monument images per city using Unsplash
+// Unique landmark images per city — Noida uses DLF Mall / Noida skyline
 const CITY_IMAGES: Record<string, string> = {
-  'delhi-ncr':  'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=280&q=80&auto=format',
-  'noida':      'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=280&q=80&auto=format',
-  'gurgaon':    'https://images.unsplash.com/photo-1582510003544-4d00b7f74220?w=280&q=80&auto=format',
+  'delhi':      'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=280&q=80&auto=format',
+  'noida':      'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=280&q=80&auto=format',
+  'gurgaon':    'https://images.unsplash.com/photo-1596176530529-78163a4f7af2?w=280&q=80&auto=format',
   'faridabad':  'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=280&q=80&auto=format',
 };
 

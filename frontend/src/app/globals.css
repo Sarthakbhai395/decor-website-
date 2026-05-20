@@ -223,6 +223,24 @@
   .preserve-3d {
     transform-style: preserve-3d;
   }
+
+  /* Scale utilities for hover effects */
+  .scale-108 {
+    --tw-scale-x: 1.08;
+    --tw-scale-y: 1.08;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  .group:hover .group-hover\:scale-108 {
+    --tw-scale-x: 1.08;
+    --tw-scale-y: 1.08;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+  }
+
+  /* Duration 400ms */
+  .duration-400 {
+    transition-duration: 400ms;
+  }
 }
 
 /* ─── Hero balloon — CSS-only, GPU-composited ─────────────────────────────── */

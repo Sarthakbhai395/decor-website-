@@ -1,6 +1,7 @@
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import WhatsAppButton from '@/components/shared/WhatsAppButton';
+import NavigationPopup from '@/components/shared/NavigationPopup';
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -9,6 +10,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       <main className="min-h-screen">{children}</main>
       <Footer />
       <WhatsAppButton />
+      <NavigationPopup />
     </>
   );
 }

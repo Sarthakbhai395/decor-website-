@@ -102,35 +102,60 @@ app.use(errorHandler);
 const PORT = parseInt(String(process.env.PORT || '5000'), 10);
 const HOST = '0.0.0.0'; // bind to all interfaces so mobile on LAN can reach it
 
+/**
+ * Kill whatever process is holding PORT, then retry listening.
+ * Works on Windows (taskkill) and Unix (kill).
+ */
+function killPortAndRetry(server: ReturnType<typeof app.listen>) {
+  const { execSync } = require('child_process');
+  try {
+    if (process.platform === 'win32') {
+      // Find PID holding the port
+      const out = execSync(`netstat -ano | findstr :${PORT}`, { encoding: 'utf8' });
+      const match = out.match(/LISTENING\s+(\d+)/);
+      if (match) {
+        const pid = match[1];
+        if (parseInt(pid) !== process.pid) {
+          execSync(`taskkill /PID ${pid} /F`, { stdio: 'ignore' });
+          logger.info(`🔪 Killed stale process PID ${pid} holding port ${PORT}`);
+        }
+      }
+    } else {
+      execSync(`fuser -k ${PORT}/tcp`, { stdio: 'ignore' });
+      logger.info(`🔪 Killed stale process holding port ${PORT}`);
+    }
+  } catch { /* nothing to kill */ }
+
+  // Wait 500ms then retry
+  setTimeout(() => {
+    server.listen(PORT, HOST);
+  }, 500);
+}
+
 const startServer = async () => {
   await connectDB();
 
   const server = app.listen(PORT, HOST, () => {
-    const networkInterfaces = require('os').networkInterfaces();
+    const { networkInterfaces } = require('os');
     const localIPs: string[] = [];
-    Object.values(networkInterfaces).forEach((ifaces: any) => {
+    Object.values(networkInterfaces()).forEach((ifaces: any) => {
       ifaces?.forEach((iface: any) => {
-        if (iface.family === 'IPv4' && !iface.internal) {
-          localIPs.push(iface.address);
-        }
+        if (iface.family === 'IPv4' && !iface.internal) localIPs.push(iface.address);
       });
     });
-
     logger.info(`🚀 Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
     logger.info(`📡 Local:   http://localhost:${PORT}/api/v1`);
-    localIPs.forEach((ip) => {
-      logger.info(`📡 Network: http://${ip}:${PORT}/api/v1`);
-    });
+    localIPs.forEach((ip) => logger.info(`📡 Network: http://${ip}:${PORT}/api/v1`));
   });
 
   server.on('error', (err: NodeJS.ErrnoException) => {
     if (err.code === 'EADDRINUSE') {
-      logger.error(`❌ Port ${PORT} is already in use. Kill the process using it and restart.`);
-      logger.error(`   Run: netstat -ano | findstr :${PORT}  then  taskkill /PID <pid> /F`);
+      logger.warn(`⚠️  Port ${PORT} in use — killing stale process and retrying...`);
+      killPortAndRetry(server);
     } else {
       logger.error(`Server error: ${err.message}`);
+      process.exit(1);
     }
-    process.exit(1);
   });
 };
 
