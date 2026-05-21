@@ -1,22 +1,25 @@
 import Link from 'next/link';
-import { Sparkles, Instagram, Facebook, Twitter, Youtube, Phone, Mail, MapPin } from 'lucide-react';
+import { Sparkles, Instagram, Facebook, Twitter, Youtube, Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+
+const PHONE_NUMBER = '+916306059912';
+const WA_NUMBER = '916306059912';
 
 const footerLinks = {
   services: [
-    { label: 'Balloon Decorations', href: '/services/balloon-decorations' },
-    { label: 'Birthday Setups', href: '/services/birthday-decorations' },
-    { label: 'Anniversary Decor', href: '/services/anniversary-decorations' },
-    { label: 'Proposal Planning', href: '/services/proposal-planning' },
-    { label: 'Candlelight Dinner', href: '/services/candlelight-dinner' },
-    { label: 'Wedding Decor', href: '/services/wedding-decor' },
+    { label: 'Balloon Decorations', href: '/categories/birthday-decorations' },
+    { label: 'Birthday Setups', href: '/categories/birthday-decorations' },
+    { label: 'Anniversary Decor', href: '/categories/anniversary-decorations' },
+    { label: 'Proposal Planning', href: '/categories/ring-decoration' },
+    { label: 'Candlelight Dinner', href: '/categories/candlelight-dinner' },
+    { label: 'Wedding Decor', href: '/categories/wedding-decoration' },
+    { label: 'Kids Decoration', href: '/categories/kids-decoration' },
+    { label: 'Car Decoration', href: '/categories/car-decoration' },
+    { label: 'Surprise Decoration', href: '/categories/surprise-decoration' },
   ],
   company: [
     { label: 'About Us', href: '/about' },
     { label: 'Gallery', href: '/gallery' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'Reviews', href: '/reviews' },
     { label: 'Contact', href: '/contact' },
-    { label: 'Careers', href: '/careers' },
   ],
   legal: [
     { label: 'Privacy Policy', href: '/privacy-policy' },
@@ -26,10 +29,7 @@ const footerLinks = {
   ],
 };
 
-const cities = [
-  'Mumbai', 'Delhi', 'Bangalore', 'Hyderabad', 'Chennai',
-  'Kolkata', 'Pune', 'Ahmedabad', 'Jaipur', 'Goa',
-];
+const cities = ['Delhi', 'Noida', 'Ghaziabad', 'Faridabad'];
 
 export default function Footer() {
   return (
@@ -49,29 +49,36 @@ export default function Footer() {
               <div className="w-10 h-10 rounded-full bg-gold-gradient flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-luxury-black" />
               </div>
-              <div>
-                <span className="text-xl font-display font-bold text-gold-gradient">Luxe</span>
-                <span className="text-xl font-display font-light text-white ml-1">Celebrations</span>
-              </div>
+              <span className="text-xl font-display font-bold text-gold-gradient" style={{ textShadow: '0 0 20px rgba(201,169,110,0.5)', letterSpacing: '0.02em' }}>
+                Melting Eve
+              </span>
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-xs">
-              Transforming ordinary moments into extraordinary memories. India&apos;s most luxurious
-              decoration and surprise planning service.
+              Transforming ordinary moments into extraordinary memories. Premium decoration and surprise planning service across Delhi NCR.
             </p>
 
             {/* Contact */}
             <div className="space-y-3">
-              <a href="tel:+919999999999" className="flex items-center gap-3 text-sm text-white/50 hover:text-gold-500 transition-colors">
+              <a href={`tel:${PHONE_NUMBER}`} className="flex items-center gap-3 text-sm text-white/50 hover:text-gold-500 transition-colors">
                 <Phone className="w-4 h-4 text-gold-500" />
-                +91 99999 99999
+                +91 63060 59912
               </a>
-              <a href="mailto:hello@luxecelebrations.com" className="flex items-center gap-3 text-sm text-white/50 hover:text-gold-500 transition-colors">
+              <a
+                href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to book a decoration service.")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm text-white/50 hover:text-gold-500 transition-colors"
+              >
+                <MessageCircle className="w-4 h-4 text-green-400" />
+                WhatsApp: +91 63060 59912
+              </a>
+              <a href="mailto:hello@meltingeve.com" className="flex items-center gap-3 text-sm text-white/50 hover:text-gold-500 transition-colors">
                 <Mail className="w-4 h-4 text-gold-500" />
-                hello@luxecelebrations.com
+                hello@meltingeve.com
               </a>
-              <div className="flex items-center gap-3 text-sm text-white/50">
-                <MapPin className="w-4 h-4 text-gold-500 flex-shrink-0" />
-                Mumbai, Maharashtra, India
+              <div className="flex items-start gap-3 text-sm text-white/50">
+                <MapPin className="w-4 h-4 text-gold-500 flex-shrink-0 mt-0.5" />
+                <span>D-216, Hyperfocus Building, Sector 63, Noida, UP 201301</span>
               </div>
             </div>
 
@@ -102,7 +109,7 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               {footerLinks.services.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     href={link.href}
                     className="text-sm text-white/50 hover:text-white transition-colors"
@@ -160,13 +167,12 @@ export default function Footer() {
           </h3>
           <div className="flex flex-wrap gap-2">
             {cities.map((city) => (
-              <Link
+              <span
                 key={city}
-                href={`/cities/${city.toLowerCase()}`}
-                className="text-xs text-white/40 hover:text-gold-500 transition-colors px-3 py-1 rounded-full border border-white/10 hover:border-gold-500/30"
+                className="text-xs text-white/40 px-3 py-1 rounded-full border border-white/10"
               >
                 {city}
-              </Link>
+              </span>
             ))}
           </div>
         </div>
@@ -174,7 +180,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-white/30">
-            © {new Date().getFullYear()} Luxe Celebrations. All rights reserved.
+            © {new Date().getFullYear()} Melting Eve. All rights reserved.
           </p>
           <p className="text-xs text-white/30">
             Crafted with ❤️ for unforgettable moments

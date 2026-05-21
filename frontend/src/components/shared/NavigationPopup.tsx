@@ -5,8 +5,8 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Phone, MessageCircle, X, Sparkles } from 'lucide-react';
 
-const PHONE = '+919999999999';
-const WA = '919999999999';
+const PHONE = '+916306059912';
+const WA = '916306059912';
 
 export default function NavigationPopup() {
   const pathname = usePathname();
@@ -55,9 +55,10 @@ export default function NavigationPopup() {
           <div
             className="relative rounded-2xl overflow-hidden p-4"
             style={{
-              background: 'rgba(17,17,17,0.92)',
+              background: 'rgba(17,17,17,0.75)',
               border: '1px solid rgba(201,169,110,0.25)',
-              backdropFilter: 'blur(16px)',
+              backdropFilter: 'blur(28px)',
+              WebkitBackdropFilter: 'blur(28px)',
               boxShadow: '0 20px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,169,110,0.1)',
             }}
           >

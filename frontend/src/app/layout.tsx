@@ -34,14 +34,14 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL || 'https://luxecelebrations.com'
+    process.env.NEXT_PUBLIC_APP_URL || 'https://meltingeve.com'
   ),
   title: {
-    default: 'Luxe Celebrations — Premium Decoration & Surprise Planning',
-    template: '%s | Luxe Celebrations',
+    default: 'Melting Eve — Premium Decoration & Surprise Planning',
+    template: '%s | Melting Eve',
   },
   description:
-    "India's most luxurious decoration and surprise planning service. Balloon decorations, romantic setups, birthday surprises, anniversary celebrations, proposal planning & more.",
+    "Delhi NCR's most luxurious decoration and surprise planning service. Balloon decorations, romantic setups, birthday surprises, anniversary celebrations, proposal planning & more. Serving Delhi, Noida, Ghaziabad & Faridabad.",
   keywords: [
     'luxury decoration',
     'surprise planning',
@@ -53,30 +53,35 @@ export const metadata: Metadata = {
     'candlelight dinner',
     'hotel room decoration',
     'wedding decor',
+    'decoration in noida',
+    'decoration in delhi',
+    'decoration in ghaziabad',
+    'decoration in faridabad',
+    'melting eve',
   ],
-  authors: [{ name: 'Luxe Celebrations' }],
-  creator: 'Luxe Celebrations',
+  authors: [{ name: 'Melting Eve' }],
+  creator: 'Melting Eve',
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://luxecelebrations.com',
-    siteName: 'Luxe Celebrations',
-    title: 'Luxe Celebrations — Premium Decoration & Surprise Planning',
+    url: 'https://meltingeve.com',
+    siteName: 'Melting Eve',
+    title: 'Melting Eve — Premium Decoration & Surprise Planning',
     description:
-      "Transform every moment into a masterpiece with India's most luxurious decoration service.",
+      "Transform every moment into a masterpiece with Delhi NCR's most luxurious decoration service.",
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'Luxe Celebrations',
+        alt: 'Melting Eve',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Luxe Celebrations',
-    description: 'Premium decoration & surprise planning',
+    title: 'Melting Eve',
+    description: 'Premium decoration & surprise planning in Delhi NCR',
     images: ['/og-image.jpg'],
   },
   robots: {

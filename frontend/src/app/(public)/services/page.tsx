@@ -26,7 +26,7 @@ const FALLBACK_CATEGORIES: ICategory[] = [
 const FALLBACK_CITIES: ICity[] = [
   { _id: '1', name: 'Delhi',      slug: 'delhi',      state: 'Delhi',   image: { url: '', publicId: '' }, isActive: true, serviceCount: 120 },
   { _id: '2', name: 'Noida',      slug: 'noida',      state: 'UP',      image: { url: '', publicId: '' }, isActive: true, serviceCount: 95 },
-  { _id: '3', name: 'Gurgaon',    slug: 'gurgaon',    state: 'Haryana', image: { url: '', publicId: '' }, isActive: true, serviceCount: 88 },
+  { _id: '3', name: 'Ghaziabad',  slug: 'ghaziabad',  state: 'UP',      image: { url: '', publicId: '' }, isActive: true, serviceCount: 75 },
   { _id: '4', name: 'Faridabad',  slug: 'faridabad',  state: 'Haryana', image: { url: '', publicId: '' }, isActive: true, serviceCount: 60 },
 ];
 
@@ -389,7 +389,7 @@ function ServiceCard({ service, index }: { service: IService; index: number }) {
   const handleCall = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    window.location.href = 'tel:+919999999999';
+    window.location.href = 'tel:+916306059912';
   };
 
   return (

@@ -39,7 +39,7 @@ export default function BlogDetailPage() {
 
   if (!blog) return null;
 
-  const authorName = typeof blog.author === 'object' ? blog.author.name : 'Luxe Celebrations';
+  const authorName = typeof blog.author === 'object' ? blog.author.name : 'Melting Eve';
   const publishDate = blog.publishedAt
     ? new Date(blog.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })
     : '';

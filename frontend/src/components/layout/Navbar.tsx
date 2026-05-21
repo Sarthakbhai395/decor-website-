@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -18,10 +18,9 @@ import CityPickerModal from '@/components/home/CityPickerModal';
 const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
-  { href: '/categories', label: 'Categories' },
+  { href: '/categories', label: 'Categories', hasDropdown: true },
   { href: '/gallery', label: 'Gallery' },
   { href: '/about', label: 'About' },
-  { href: '/blog', label: 'Blog' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -37,14 +36,16 @@ const SIDEBAR_CATEGORIES = [
   { label: 'Corporate Decoration', slug: 'corporate-decoration', emoji: '🏢' },
 ];
 
-const PHONE_NUMBER = '+919999999999';
-const WA_NUMBER = '919999999999';
+const PHONE_NUMBER = '+916306059912';
+const WA_NUMBER = '916306059912';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [catDropOpen, setCatDropOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const catDropRef = useRef<HTMLDivElement>(null);
   const { theme, setTheme } = useTheme();
   const { user, isAuthenticated, logout } = useAuthStore();
   const pathname = usePathname();
@@ -57,7 +58,18 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => { setIsOpen(false); }, [pathname]);
+  useEffect(() => { setIsOpen(false); setCatDropOpen(false); }, [pathname]);
+
+  // Close category dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (catDropRef.current && !catDropRef.current.contains(e.target as Node)) {
+        setCatDropOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   const handleLogout = async () => {
     await logout();
@@ -87,30 +99,89 @@ export default function Navbar() {
                 <Sparkles className="w-3.5 h-3.5 text-luxury-black" />
               </div>
               <div className="hidden sm:block">
-                <span className="text-base font-display font-bold text-gold-gradient">Luxe</span>
-                <span className="text-base font-display font-light text-white ml-1">Celebrations</span>
+                <span className="text-base font-display font-bold text-gold-gradient" style={{ textShadow: '0 0 20px rgba(201,169,110,0.6)', letterSpacing: '0.02em' }}>Melting Eve</span>
               </div>
-              <span className="sm:hidden text-sm font-display font-bold text-gold-gradient">Luxe</span>
+              <span className="sm:hidden text-sm font-display font-bold text-gold-gradient" style={{ textShadow: '0 0 16px rgba(201,169,110,0.6)' }}>ME</span>
             </Link>
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-5 xl:gap-7">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={cn(
-                    'relative text-sm font-medium tracking-wide transition-colors duration-200 group',
-                    pathname === link.href ? 'text-gold-500' : 'text-white/70 hover:text-white'
-                  )}
-                >
-                  {link.label}
-                  <span className={cn(
-                    'absolute -bottom-1 left-0 h-px bg-gold-gradient transition-all duration-300',
-                    pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
-                  )} />
-                </Link>
-              ))}
+              {navLinks.map((link) =>
+                link.hasDropdown ? (
+                  <div key={link.href} ref={catDropRef} className="relative">
+                    <button
+                      onMouseEnter={() => setCatDropOpen(true)}
+                      onClick={() => setCatDropOpen(!catDropOpen)}
+                      className={cn(
+                        'relative flex items-center gap-1 text-sm font-medium tracking-wide transition-colors duration-200 group',
+                        pathname.startsWith('/categories') ? 'text-gold-500' : 'text-white/70 hover:text-white'
+                      )}
+                    >
+                      {link.label}
+                      <ChevronDown className={cn('w-3.5 h-3.5 transition-transform duration-200', catDropOpen && 'rotate-180')} />
+                      <span className={cn(
+                        'absolute -bottom-1 left-0 h-px bg-gold-gradient transition-all duration-300',
+                        pathname.startsWith('/categories') ? 'w-full' : 'w-0 group-hover:w-full'
+                      )} />
+                    </button>
+
+                    <AnimatePresence>
+                      {catDropOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.97 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.97 }}
+                          transition={{ duration: 0.18 }}
+                          onMouseLeave={() => setCatDropOpen(false)}
+                          className="absolute left-1/2 -translate-x-1/2 top-full mt-3 w-64 rounded-2xl overflow-hidden z-50"
+                          style={{
+                            background: 'rgba(13,13,13,0.97)',
+                            border: '1px solid rgba(201,169,110,0.2)',
+                            backdropFilter: 'blur(20px)',
+                            boxShadow: '0 20px 40px rgba(0,0,0,0.6)',
+                          }}
+                        >
+                          <div className="p-2">
+                            <p className="text-[10px] text-gold-500/50 uppercase tracking-widest font-medium px-3 py-2">Our Categories</p>
+                            {SIDEBAR_CATEGORIES.map((cat, i) => (
+                              <motion.div
+                                key={cat.slug}
+                                initial={{ opacity: 0, x: -8 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: i * 0.03 }}
+                              >
+                                <Link
+                                  href={`/categories/${cat.slug}`}
+                                  onClick={() => setCatDropOpen(false)}
+                                  className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-white/70 hover:text-white hover:bg-gold-500/10 transition-all"
+                                >
+                                  <span className="text-base w-6 text-center flex-shrink-0">{cat.emoji}</span>
+                                  <span>{cat.label}</span>
+                                </Link>
+                              </motion.div>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={cn(
+                      'relative text-sm font-medium tracking-wide transition-colors duration-200 group',
+                      pathname === link.href ? 'text-gold-500' : 'text-white/70 hover:text-white'
+                    )}
+                  >
+                    {link.label}
+                    <span className={cn(
+                      'absolute -bottom-1 left-0 h-px bg-gold-gradient transition-all duration-300',
+                      pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                    )} />
+                  </Link>
+                )
+              )}
             </div>
 
             {/* Right Actions */}
@@ -126,7 +197,7 @@ export default function Navbar() {
               >
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 pointer-events-none" />
                 <Phone className="w-3.5 h-3.5 text-luxury-black" />
-                <span className="hidden sm:inline text-xs font-bold text-luxury-black tracking-wide">Call Now</span>
+                <span className="hidden sm:inline text-xs font-bold text-luxury-black tracking-wide">Call / Chat</span>
               </a>
 
               {/* Theme Toggle */}
@@ -249,7 +320,7 @@ export default function Navbar() {
                   <div className="w-8 h-8 rounded-full bg-gold-gradient flex items-center justify-center">
                     <Sparkles className="w-3.5 h-3.5 text-luxury-black" />
                   </div>
-                  <span className="text-sm font-display font-bold text-gold-gradient">Luxe Celebrations</span>
+                  <span className="text-sm font-display font-bold text-gold-gradient" style={{ textShadow: '0 0 16px rgba(201,169,110,0.6)' }}>Melting Eve</span>
                 </Link>
                 <button
                   onClick={() => setIsOpen(false)}

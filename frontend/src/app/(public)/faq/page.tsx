@@ -13,7 +13,7 @@ const faqs = [
   },
   {
     question: 'What areas do you serve?',
-    answer: 'We currently serve 50+ cities across India including Mumbai, Delhi, Bangalore, Hyderabad, Chennai, Pune, Goa, Jaipur, and more. Check our Cities page for the complete list.',
+    answer: 'We currently serve 4 cities across Delhi NCR: Delhi, Noida, Ghaziabad, and Faridabad. Our dedicated local teams ensure premium service across all these locations.',
   },
   {
     question: 'Can I customize a package?',

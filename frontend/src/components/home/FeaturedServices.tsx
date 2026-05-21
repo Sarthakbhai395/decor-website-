@@ -27,7 +27,7 @@ function FeaturedCard({ service }: { service: IService }) {
   const handleCall = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    window.location.href = 'tel:+919999999999';
+    window.location.href = 'tel:+916306059912';
   };
 
   return (

@@ -68,7 +68,7 @@ export default function CTASection() {
               </motion.button>
             </Link>
 
-            <a href="tel:+919999999999">
+            <a href="tel:+916306059912">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

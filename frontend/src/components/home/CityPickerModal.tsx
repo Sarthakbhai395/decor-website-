@@ -14,12 +14,12 @@ const CITIES = [
   {
     name: 'Noida',
     slug: 'noida',
-    monumentName: 'DLF Mall of India',
+    monumentName: 'Sector 18, Noida',
   },
   {
-    name: 'Gurgaon',
-    slug: 'gurgaon',
-    monumentName: 'Cyber Hub',
+    name: 'Ghaziabad',
+    slug: 'ghaziabad',
+    monumentName: 'Ghaziabad',
   },
   {
     name: 'Faridabad',
@@ -28,11 +28,11 @@ const CITIES = [
   },
 ];
 
-// Unique landmark images per city — Noida uses DLF Mall / Noida skyline
+// Unique landmark images per city
 const CITY_IMAGES: Record<string, string> = {
   'delhi':      'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=280&q=80&auto=format',
   'noida':      'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=280&q=80&auto=format',
-  'gurgaon':    'https://images.unsplash.com/photo-1596176530529-78163a4f7af2?w=280&q=80&auto=format',
+  'ghaziabad':  'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=280&q=80&auto=format',
   'faridabad':  'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=280&q=80&auto=format',
 };
 

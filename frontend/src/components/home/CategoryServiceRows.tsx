@@ -20,8 +20,8 @@ export const ALL_STATIC_SERVICES = [
   { id: 'k4', slug: 'adorable-barbie-themed', title: 'Adorable Barbie Themed Decor', image: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=500&q=80&auto=format', price: 10624, rating: 4.6, location: 'At Your Location', category: 'kids-decoration', categoryLabel: 'Kids Decoration' },
   // Candlelight
   { id: 'c1', slug: 'private-dining-experience', title: 'Private Dining Experience', image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=80&auto=format', price: 6874, rating: 5, location: 'Sector 104, Noida', category: 'candlelight-dinner', categoryLabel: 'Candlelight Dinner' },
-  { id: 'c2', slug: 'rooftop-candlelight-dinner', title: 'Rooftop Candlelight Dinner', image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&q=80&auto=format', price: 6875, rating: 4.5, location: 'Sector 27, Gurgaon', category: 'candlelight-dinner', categoryLabel: 'Candlelight Dinner' },
-  { id: 'c3', slug: 'lavish-indoor-dining', title: 'Lavish Indoor Dining', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80&auto=format', price: 7499, rating: 5, location: 'Sector 29, Gurgaon', category: 'candlelight-dinner', categoryLabel: 'Candlelight Dinner' },
+  { id: 'c2', slug: 'rooftop-candlelight-dinner', title: 'Rooftop Candlelight Dinner', image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&q=80&auto=format', price: 6875, rating: 4.5, location: 'Sector 27, Delhi', category: 'candlelight-dinner', categoryLabel: 'Candlelight Dinner' },
+  { id: 'c3', slug: 'lavish-indoor-dining', title: 'Lavish Indoor Dining', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&q=80&auto=format', price: 7499, rating: 5, location: 'Noida', category: 'candlelight-dinner', categoryLabel: 'Candlelight Dinner' },
   { id: 'c4', slug: 'fairy-lights-lantern-dinner', title: 'Fairy Lights & Lantern Dinner', image: 'https://images.unsplash.com/photo-1559339352-11d035aa65de?w=500&q=80&auto=format', price: 3249, rating: 5, location: 'At Your Location', category: 'candlelight-dinner', categoryLabel: 'Candlelight Dinner' },
   // Anniversary
   { id: 'a1', slug: 'rose-gold-romance-room', title: 'Rose Gold Romance Room Decor', image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500&q=80&auto=format', price: 3249, rating: 5, location: 'At Your Location', category: 'anniversary-decorations', categoryLabel: 'Anniversary Decoration' },
@@ -104,7 +104,7 @@ function CategoryRow({ row }: { row: typeof CATEGORY_ROWS[0] }) {
       <div className="flex items-center justify-between mb-5 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-display font-bold text-white">{row.title}</h2>
         <Link
-          href={`/services?category=${row.slug}`}
+          href={`/categories/${row.slug}`}
           className="flex items-center gap-1 text-xs sm:text-sm text-gold-500 hover:text-gold-400 transition-colors font-medium"
         >
           See All <ArrowRight className="w-3.5 h-3.5" />

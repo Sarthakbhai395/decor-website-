@@ -6,9 +6,9 @@ import { useInView } from 'react-intersection-observer';
 import { Heart, Star, Users, Award } from 'lucide-react';
 
 const stats = [
-  { icon: Heart, value: 15000, suffix: '+', label: 'Happy Couples', color: 'text-rose-400' },
+  { icon: Heart, value: 5000, suffix: '+', label: 'Happy Couples', color: 'text-rose-400' },
   { icon: Star, value: 4.9, suffix: '/5', label: 'Average Rating', color: 'text-gold-500', decimal: true },
-  { icon: Users, value: 50, suffix: '+', label: 'Cities Covered', color: 'text-purple-400' },
+  { icon: Users, value: 4, suffix: '', label: 'Cities Covered', color: 'text-purple-400' },
   { icon: Award, value: 8, suffix: '+', label: 'Years of Excellence', color: 'text-blue-400' },
 ];
 

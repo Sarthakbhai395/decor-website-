@@ -15,7 +15,7 @@ const testimonials = [
     rating: 5,
     comment: 'Absolutely magical! The team transformed our hotel room into a fairytale. Every detail was perfect — from the rose petals to the candles. We were speechless!',
     avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80',
-    city: 'Mumbai',
+    city: 'Noida',
   },
   {
     name: 'Arjun Sharma',
@@ -31,7 +31,7 @@ const testimonials = [
     rating: 5,
     comment: 'My husband surprised me with the most beautiful birthday setup. The balloon arch, the fairy lights, the personalized touches — I cried happy tears!',
     avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80',
-    city: 'Bangalore',
+    city: 'Ghaziabad',
   },
   {
     name: 'Vikram & Ananya',
@@ -39,7 +39,7 @@ const testimonials = [
     rating: 5,
     comment: 'The candlelight dinner setup by the pool was absolutely romantic. The attention to detail was incredible. Our 5th anniversary was truly unforgettable.',
     avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&q=80',
-    city: 'Hyderabad',
+    city: 'Faridabad',
   },
   {
     name: 'Meera Krishnan',
@@ -47,15 +47,15 @@ const testimonials = [
     rating: 5,
     comment: 'The baby welcome decoration was so adorable and thoughtful. Every guest was amazed. The team was so sweet and made the whole experience special.',
     avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&q=80',
-    city: 'Chennai',
+    city: 'Noida',
   },
   {
     name: 'Rohan Mehta',
     occasion: 'Wedding Decor',
     rating: 5,
-    comment: 'Our wedding venue looked like something out of a dream. The floral arrangements, the lighting, the overall ambiance — Luxe Celebrations exceeded all expectations!',
+    comment: 'Our wedding venue looked like something out of a dream. The floral arrangements, the lighting, the overall ambiance — Melting Eve exceeded all expectations!',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80',
-    city: 'Pune',
+    city: 'Noida',
   },
 ];
 

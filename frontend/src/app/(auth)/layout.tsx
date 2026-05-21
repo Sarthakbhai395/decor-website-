@@ -17,7 +17,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             <div className="w-10 h-10 rounded-full bg-gold-gradient flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-luxury-black" />
             </div>
-            <span className="text-xl font-display font-bold text-gold-gradient">Luxe Celebrations</span>
+            <span className="text-xl font-display font-bold text-gold-gradient" style={{ textShadow: '0 0 20px rgba(201,169,110,0.5)' }}>Melting Eve</span>
           </Link>
 
           <div>
@@ -31,9 +31,9 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
             <div className="flex items-center gap-6 mt-8">
               {[
-                { value: '15K+', label: 'Happy Clients' },
+                { value: '5000+', label: 'Happy Clients' },
                 { value: '4.9★', label: 'Rating' },
-                { value: '50+', label: 'Cities' },
+                { value: '4', label: 'Cities' },
               ].map((stat) => (
                 <div key={stat.label}>
                   <div className="text-2xl font-bold text-gold-500">{stat.value}</div>
@@ -54,7 +54,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
               <div className="w-10 h-10 rounded-full bg-gold-gradient flex items-center justify-center">
                 <Sparkles className="w-5 h-5 text-luxury-black" />
               </div>
-              <span className="text-xl font-display font-bold text-gold-gradient">Luxe Celebrations</span>
+              <span className="text-xl font-display font-bold text-gold-gradient" style={{ textShadow: '0 0 20px rgba(201,169,110,0.5)' }}>Melting Eve</span>
             </Link>
           </div>
           {children}

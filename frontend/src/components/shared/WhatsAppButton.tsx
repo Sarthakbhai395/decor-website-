@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, Phone, X } from 'lucide-react';
 
-const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, '') || '919999999999';
+const PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, '') || '916306059912';
 const WA_MSG = encodeURIComponent("Hi! I'm interested in booking a luxury decoration service. Can you help me?");
 
 export default function FloatingContactButtons() {

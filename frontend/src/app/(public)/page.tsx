@@ -8,9 +8,9 @@ import TestimonialsSection from '@/components/home/TestimonialsSection';
 import CTASection from '@/components/home/CTASection';
 
 export const metadata: Metadata = {
-  title: 'Luxe Celebrations — Premium Decoration & Surprise Planning',
+  title: 'Melting Eve — Premium Decoration & Surprise Planning',
   description:
-    "India's most luxurious decoration and surprise planning service. Balloon decorations, romantic setups, birthday surprises, anniversary celebrations & more.",
+    "Delhi NCR's most luxurious decoration and surprise planning service. Balloon decorations, romantic setups, birthday surprises, anniversary celebrations & more. Serving Delhi, Noida, Ghaziabad & Faridabad.",
 };
 
 export default function HomePage() {

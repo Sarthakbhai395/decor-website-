@@ -9,7 +9,7 @@ const HERO_SLIDES = [
   {
     title: 'Create Magical',
     subtitle: 'Moments',
-    description: 'Premium decoration & surprise planning across Delhi, Noida & Gurgaon.',
+    description: 'Premium decoration & surprise planning across Delhi, Noida, Ghaziabad & Faridabad.',
     image: 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200&q=75&auto=format',
     cta: 'Explore Services',
     ctaLink: '/services',
@@ -206,7 +206,7 @@ export default function HeroSection() {
           </Link>
 
           <a
-            href="tel:+919999999999"
+            href="tel:+916306059912"
             className="flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full text-white/85 text-xs sm:text-sm font-medium active:scale-95 transition-all"
             style={{
               border: '1px solid rgba(255,255,255,0.22)',
@@ -227,9 +227,9 @@ export default function HeroSection() {
           className="flex items-center gap-4 mt-8 sm:mt-10"
         >
           {[
-            { value: '15K+', label: 'Happy Clients' },
+            { value: '5000+', label: 'Celebrations' },
             { value: '4.9★', label: 'Rating' },
-            { value: '50+', label: 'Cities' },
+            { value: '4', label: 'Cities' },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <p className="text-sm sm:text-base font-bold text-gold-400 leading-none">{stat.value}</p>
