@@ -1,16 +1,6 @@
 import type { NextConfig } from 'next';
-import path from 'path';
 
 const nextConfig: NextConfig = {
-  // Allow mobile/other devices on the local network to access the dev server
-  allowedDevOrigins: [
-    '192.168.0.113',
-    '192.168.0.*',
-    '192.168.*.*',
-    '10.0.*.*',
-    '172.16.*.*',
-  ],
-
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'res.cloudinary.com' },
@@ -23,9 +13,6 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
-  },
-  turbopack: {
-    root: path.resolve(__dirname, '..'),
   },
   // Compress responses
   compress: true,
