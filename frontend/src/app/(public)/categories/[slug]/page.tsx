@@ -236,17 +236,18 @@ function CategoryServiceCard({ service, index }: { service: ServiceItem; index: 
                   <Phone className="w-2.5 h-2.5" />
                   <span>Call</span>
                 </button>
-                <a
-                  href={`https://wa.me/${WA}?text=${encodeURIComponent(`Hi! I'm interested in: ${service.title}`)}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(`Hi! I'm interested in: ${service.title}`)}`, '_blank');
+                  }}
                   className="flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold text-white"
                   style={{ background: '#25D366' }}
                   aria-label="WhatsApp"
                 >
                   <MessageCircle className="w-2.5 h-2.5 fill-white" />
-                </a>
+                </button>
               </div>
             </div>
           </div>

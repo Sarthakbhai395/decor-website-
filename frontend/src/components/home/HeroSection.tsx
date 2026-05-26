@@ -57,9 +57,9 @@ export default function HeroSection() {
   return (
     <section
       className="relative flex items-center overflow-hidden bg-luxury-black"
-      /* ── Mobile: 80 vh so the category strip peeks below ──
+      /* ── Mobile: 35 svh to allow Luxe and Categories to fit on screen fold ──
          ── Tablet+: cap at 520 px so it doesn't dominate large screens ── */
-      style={{ height: isMobile ? '80svh' : 'clamp(420px, 55vh, 520px)' }}
+      style={{ height: isMobile ? '35svh' : 'clamp(420px, 55vh, 520px)' }}
     >
       {/* ── Background image slides ── */}
       <div className="absolute inset-0">
@@ -129,14 +129,14 @@ export default function HeroSection() {
       ))}
 
       {/* ── Content ── */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-16 sm:pt-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 pt-6 sm:pt-20">
 
         {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.05 }}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 sm:mb-5"
+          className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-4 sm:mb-5"
           style={{
             background: 'rgba(0,0,0,0.45)',
             border: '1px solid rgba(201,169,110,0.45)',
@@ -162,9 +162,8 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: isMobile ? 0.28 : 0.45 }}
-            className="font-display font-bold leading-[1.12] mb-3 sm:mb-4"
+            className="font-display font-bold leading-[1.12] mb-2 sm:mb-4 text-xl sm:text-3xl lg:text-6xl"
             style={{
-              fontSize: 'clamp(2rem, 8vw, 4rem)',
               willChange: 'opacity, transform',
               textShadow: '0 2px 20px rgba(0,0,0,0.5)',
             }}
@@ -174,7 +173,7 @@ export default function HeroSection() {
           </motion.h1>
         </AnimatePresence>
 
-        {/* Description — visible on mobile too now that hero is tall */}
+        {/* Description — visible on tablet/desktop */}
         <AnimatePresence mode="wait">
           <motion.p
             key={`desc-${currentSlide}`}
@@ -182,7 +181,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, delay: 0.06 }}
-            className="text-sm sm:text-base text-white/65 max-w-sm sm:max-w-lg mb-6 sm:mb-8 leading-relaxed"
+            className="hidden sm:block text-sm sm:text-base text-white/65 max-w-sm sm:max-w-lg mb-6 sm:mb-8 leading-relaxed"
           >
             {slide.description}
           </motion.p>
@@ -193,29 +192,29 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.12 }}
-          className="flex items-center gap-3"
+          className="flex items-center gap-2 sm:gap-3"
         >
           <Link href={slide.ctaLink}>
             <button
-              className="btn-luxury flex items-center gap-2 text-xs sm:text-sm px-5 sm:px-7 py-2.5 sm:py-3 active:scale-95 transition-transform"
-              style={{ boxShadow: '0 8px 24px rgba(201,169,110,0.35)' }}
+              className="btn-luxury flex items-center gap-1.5 text-[10px] sm:text-sm px-3.5 sm:px-7 py-1.5 sm:py-3 active:scale-95 transition-transform"
+              style={{ boxShadow: '0 6px 18px rgba(201,169,110,0.25)' }}
             >
               {slide.cta}
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
             </button>
           </Link>
 
           <a
             href="tel:+916306059912"
-            className="flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full text-white/85 text-xs sm:text-sm font-medium active:scale-95 transition-all"
+            className="flex items-center gap-1.5 px-3 sm:px-5 py-1.5 sm:py-3 rounded-full text-white/85 text-[10px] sm:text-sm font-medium active:scale-95 transition-all"
             style={{
               border: '1px solid rgba(255,255,255,0.22)',
               background: 'rgba(0,0,0,0.3)',
               backdropFilter: 'blur(6px)',
             }}
           >
-            <Phone className="w-3.5 h-3.5" />
-            <span>Call Now</span>
+            <Phone className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+            <span>Call</span>
           </a>
         </motion.div>
 
@@ -224,7 +223,7 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
-          className="flex items-center gap-4 mt-8 sm:mt-10"
+          className="hidden sm:flex items-center gap-4 mt-8 sm:mt-10"
         >
           {[
             { value: '5000+', label: 'Celebrations' },

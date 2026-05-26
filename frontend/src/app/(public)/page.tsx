@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import LuxeSection from '@/components/home/LuxeSection';
 import HeroSection from '@/components/home/HeroSection';
 import QuickCategories from '@/components/home/QuickCategories';
 import FeaturedServices from '@/components/home/FeaturedServices';
@@ -16,10 +17,13 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      {/* Luxe Section */}
+      <LuxeSection />
+
       {/* 1. Hero slider */}
       <HeroSection />
 
-      {/* 2. Quick category circles (Birthday, Kids, Candlelight, Anniversary, Ring, Sequin) */}
+      {/* 2. Quick category cards (Birthday, Kids, Anniversary, Car, Wedding, Corporate) */}
       <QuickCategories />
 
       {/* 3. Featured Experiences grid */}

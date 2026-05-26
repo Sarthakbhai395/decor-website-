@@ -49,6 +49,10 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (mobile apps, curl, Postman)
     if (!origin) return callback(null, true);
+    // Always allow localhost origins in development
+    if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
+      return callback(null, true);
+    }
     const allowed = allowedOrigins.some((o) =>
       typeof o === 'string' ? o === origin : o.test(origin)
     );
