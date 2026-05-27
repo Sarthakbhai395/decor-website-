@@ -257,6 +257,21 @@
   100% { background-position: 200% 0; }
 }
 
+/* ─── Genie lamp glow pulse ──────────────────────────────────────────────── */
+@keyframes genieGlow {
+  0%   { box-shadow: 0 4px 20px rgba(201, 169, 110, 0.3); }
+  50%  { box-shadow: 0 4px 30px rgba(201, 169, 110, 0.55), 0 0 50px rgba(201, 169, 110, 0.15); }
+  100% { box-shadow: 0 4px 20px rgba(201, 169, 110, 0.3); }
+}
+
+/* ─── Genie particle float ───────────────────────────────────────────────── */
+@keyframes particleFloat {
+  0%   { transform: translateY(0) scale(0.5); opacity: 0; }
+  30%  { opacity: 0.8; }
+  70%  { opacity: 0.4; }
+  100% { transform: translateY(-60px) scale(0.2); opacity: 0; }
+}
+
 /* ─── Mobile performance overrides ───────────────────────────────────────── */
 @media (max-width: 767px), (pointer: coarse) {
   /* Kill backdrop-blur on mobile — single biggest GPU drain */

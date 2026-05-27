@@ -680,7 +680,7 @@ export default function ServiceDetailPage() {
           <Link href={`/booking-contact?service=${slug}`} className="flex-1 min-w-0">
             <button className="w-full btn-luxury flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm">
               <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="truncate">Plan My Celebration</span>
+              <span className="truncate">instant book</span>
             </button>
           </Link>
 

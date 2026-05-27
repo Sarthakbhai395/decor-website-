@@ -332,10 +332,18 @@ export default function Navbar() {
 
               {/* Scrollable content */}
               <div className="flex-1 overflow-y-auto no-scrollbar">
-                {/* Nav links */}
+                {/* Nav links — Mobile: Categories, About, Contact only */}
                 <div className="px-4 pt-4 pb-2">
                   <p className="text-[10px] text-white/30 uppercase tracking-widest font-medium px-2 mb-2">Navigation</p>
-                  {navLinks.map((link, i) => (
+                  {navLinks
+                    .filter((link) =>
+                      ['/categories', '/about', '/contact'].includes(link.href)
+                    )
+                    .sort((a, b) => {
+                      const order = ['/categories', '/about', '/contact'];
+                      return order.indexOf(a.href) - order.indexOf(b.href);
+                    })
+                    .map((link, i) => (
                     <motion.div
                       key={link.href}
                       initial={{ opacity: 0, x: -16 }}
@@ -347,7 +355,7 @@ export default function Navbar() {
                         onClick={() => setIsOpen(false)}
                         className={cn(
                           'flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-all mb-0.5',
-                          pathname === link.href
+                          pathname === link.href || (link.href === '/categories' && pathname.startsWith('/categories'))
                             ? 'text-gold-500 bg-gold-500/10 border border-gold-500/20'
                             : 'text-white/70 hover:text-white hover:bg-white/5'
                         )}

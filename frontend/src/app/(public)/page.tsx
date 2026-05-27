@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import LuxeSection from '@/components/home/LuxeSection';
 import HeroSection from '@/components/home/HeroSection';
-import QuickCategories from '@/components/home/QuickCategories';
+import LuxeSection from '@/components/home/LuxeSection';
+import BrowseCategories from '@/components/home/BrowseCategories';
 import FeaturedServices from '@/components/home/FeaturedServices';
 import CategoryServiceRows from '@/components/home/CategoryServiceRows';
 import StatsSection from '@/components/home/StatsSection';
@@ -17,28 +17,28 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      {/* Luxe Section */}
-      <LuxeSection />
-
       {/* 1. Hero slider */}
       <HeroSection />
 
-      {/* 2. Quick category cards (Birthday, Kids, Anniversary, Car, Wedding, Corporate) */}
-      <QuickCategories />
+      {/* 2. Highlighted Luxe Featured Section */}
+      <LuxeSection />
 
-      {/* 3. Featured Experiences grid */}
+      {/* 3. Browse Categories — 3×3 grid */}
+      <BrowseCategories />
+
+      {/* 4. Featured Experiences marquee */}
       <FeaturedServices />
 
-      {/* 4. Category-wise horizontal service rows */}
+      {/* 5. Category-wise horizontal service rows */}
       <CategoryServiceRows />
 
-      {/* 5. Stats bar */}
+      {/* 6. Stats bar */}
       <StatsSection />
 
-      {/* 6. Testimonials */}
+      {/* 7. Testimonials */}
       <TestimonialsSection />
 
-      {/* 7. CTA */}
+      {/* 8. CTA */}
       <CTASection />
     </>
   );
