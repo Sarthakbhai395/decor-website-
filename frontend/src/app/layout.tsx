@@ -1,34 +1,24 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Playfair_Display, Cormorant_Garamond } from 'next/font/google';
+import { Plus_Jakarta_Sans, Outfit } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { Toaster } from 'react-hot-toast';
 import './globals.css';
 
-const inter = Inter({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-jakarta',
   display: 'swap',
   preload: true,
   fallback: ['system-ui', 'sans-serif'],
   adjustFontFallback: false,
 });
 
-const playfair = Playfair_Display({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-outfit',
   display: 'swap',
-  preload: false,
-  fallback: ['Georgia', 'serif'],
-  adjustFontFallback: false,
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-cormorant',
-  display: 'swap',
-  preload: false,
-  fallback: ['Georgia', 'serif'],
+  preload: true,
+  fallback: ['system-ui', 'sans-serif'],
   adjustFontFallback: false,
 });
 
@@ -118,7 +108,7 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${playfair.variable} ${cormorant.variable}`}
+      className={`${jakarta.variable} ${outfit.variable}`}
     >
       <body className="min-h-screen bg-background antialiased" suppressHydrationWarning>
         <ThemeProvider

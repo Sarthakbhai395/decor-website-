@@ -20,11 +20,11 @@ export default function HomePage() {
       {/* 1. Hero slider */}
       <HeroSection />
 
-      {/* 2. Highlighted Luxe Featured Section */}
-      <LuxeSection />
-
-      {/* 3. Browse Categories — 3×3 grid */}
+      {/* 2. Browse Categories — 3×3 grid */}
       <BrowseCategories />
+
+      {/* 3. Highlighted Luxe Featured Section */}
+      <LuxeSection />
 
       {/* 4. Featured Experiences marquee */}
       <FeaturedServices />

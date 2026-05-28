@@ -39,6 +39,72 @@ const SIDEBAR_CATEGORIES = [
 const PHONE_NUMBER = '+916306059912';
 const WA_NUMBER = '916306059912';
 
+/* ─── Combined Contact Button for Sidebar ────────────────────────────────── */
+function SidebarContactButton() {
+  const [showOptions, setShowOptions] = useState(false);
+
+  return (
+    <div className="px-4 py-4 border-t border-gold-500/10"
+      style={{ background: 'linear-gradient(to top, rgba(10,10,10,0.98), rgba(13,13,13,0.95))' }}
+    >
+      <AnimatePresence>
+        {showOptions && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden mb-2.5 space-y-2"
+          >
+            {/* Chat */}
+            <a
+              href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to book a luxury decoration service.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-2xl font-bold text-sm text-white transition-all active:scale-95"
+              style={{ background: '#25D366' }}
+            >
+              <MessageCircle className="w-4 h-4 fill-white" />
+              <span>Chat on WhatsApp</span>
+            </a>
+            {/* Call */}
+            <a
+              href={`tel:${PHONE_NUMBER}`}
+              className="relative flex items-center gap-3 w-full px-4 py-3 rounded-2xl overflow-hidden font-bold text-sm text-luxury-black transition-all active:scale-95"
+              style={{ background: 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)', backgroundSize: '200% auto' }}
+            >
+              <Phone className="w-4 h-4 relative z-10" />
+              <span className="relative z-10">Call Us Now</span>
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <button
+        onClick={() => setShowOptions(!showOptions)}
+        className="relative flex items-center justify-center gap-3 w-full py-3.5 rounded-2xl overflow-hidden font-bold text-sm transition-all active:scale-95"
+        style={{
+          background: showOptions
+            ? 'rgba(201, 169, 110, 0.12)'
+            : 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)',
+          backgroundSize: '200% auto',
+          color: showOptions ? '#f0d080' : '#0a0a0a',
+          border: showOptions ? '1px solid rgba(201, 169, 110, 0.3)' : 'none',
+        }}
+      >
+        {!showOptions && (
+          <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 pointer-events-none" />
+        )}
+        <div className="flex items-center gap-1.5 relative z-10">
+          <Phone className="w-4 h-4" />
+          <MessageCircle className="w-4 h-4" />
+        </div>
+        <span className="relative z-10">{showOptions ? 'Close' : 'Contact Us'}</span>
+      </button>
+    </div>
+  );
+}
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -332,8 +398,30 @@ export default function Navbar() {
 
               {/* Scrollable content */}
               <div className="flex-1 overflow-y-auto no-scrollbar">
-                {/* Nav links — Mobile: Categories, About, Contact only */}
+                {/* Categories — on top */}
                 <div className="px-4 pt-4 pb-2">
+                  <p className="text-[10px] text-white/30 uppercase tracking-widest font-medium px-2 mb-2">Categories</p>
+                  {SIDEBAR_CATEGORIES.map((cat, i) => (
+                    <motion.div
+                      key={cat.slug}
+                      initial={{ opacity: 0, x: -16 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.04 }}
+                    >
+                      <Link
+                        href={`/categories/${cat.slug}`}
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-white/60 hover:text-white hover:bg-white/5 transition-all mb-0.5"
+                      >
+                        <span className="text-base w-6 text-center flex-shrink-0">{cat.emoji}</span>
+                        <span>{cat.label}</span>
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Nav links — Pages at bottom */}
+                <div className="px-4 pt-2 pb-2 border-t border-white/5">
                   <p className="text-[10px] text-white/30 uppercase tracking-widest font-medium px-2 mb-2">Navigation</p>
                   {navLinks
                     .filter((link) =>
@@ -348,7 +436,7 @@ export default function Navbar() {
                       key={link.href}
                       initial={{ opacity: 0, x: -16 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.04 }}
+                      transition={{ delay: (SIDEBAR_CATEGORIES.length + i) * 0.04 }}
                     >
                       <Link
                         href={link.href}
@@ -361,28 +449,6 @@ export default function Navbar() {
                         )}
                       >
                         {link.label}
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Categories */}
-                <div className="px-4 pt-2 pb-4">
-                  <p className="text-[10px] text-white/30 uppercase tracking-widest font-medium px-2 mb-2">Categories</p>
-                  {SIDEBAR_CATEGORIES.map((cat, i) => (
-                    <motion.div
-                      key={cat.slug}
-                      initial={{ opacity: 0, x: -16 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: (navLinks.length + i) * 0.04 }}
-                    >
-                      <Link
-                        href={`/categories/${cat.slug}`}
-                        onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-white/60 hover:text-white hover:bg-white/5 transition-all mb-0.5"
-                      >
-                        <span className="text-base w-6 text-center flex-shrink-0">{cat.emoji}</span>
-                        <span>{cat.label}</span>
                       </Link>
                     </motion.div>
                   ))}
@@ -404,30 +470,8 @@ export default function Navbar() {
                 )}
               </div>
 
-              {/* ── Sticky Bottom: Call + WhatsApp ── */}
-              <div className="px-4 py-4 border-t border-gold-500/10 space-y-2.5"
-                style={{ background: 'linear-gradient(to top, rgba(10,10,10,0.98), rgba(13,13,13,0.95))' }}
-              >
-                <a
-                  href={`tel:${PHONE_NUMBER}`}
-                  className="relative flex items-center justify-center gap-2.5 w-full py-3 rounded-2xl overflow-hidden group font-bold text-sm text-luxury-black"
-                  style={{ background: 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)', backgroundSize: '200% auto' }}
-                >
-                  <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 pointer-events-none" />
-                  <Phone className="w-4 h-4 relative z-10" />
-                  <span className="relative z-10">Call Us Now</span>
-                </a>
-                <a
-                  href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to book a luxury decoration service.")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-2.5 w-full py-3 rounded-2xl font-bold text-sm text-white transition-all hover:opacity-90 active:scale-98"
-                  style={{ background: '#25D366' }}
-                >
-                  <MessageCircle className="w-4 h-4 fill-white" />
-                  <span>WhatsApp Us</span>
-                </a>
-              </div>
+              {/* ── Sticky Bottom: Combined Contact Button ── */}
+              <SidebarContactButton />
             </motion.div>
           </>
         )}

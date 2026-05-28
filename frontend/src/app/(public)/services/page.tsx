@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, SlidersHorizontal, X, Star, ChevronDown, Phone, Clock, Users, Wifi, WifiOff } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { IService, ICategory, ICity, ServiceFilters } from '@/types';
 import { formatCurrency, getDiscountPercentage } from '@/lib/utils';
 import api from '@/lib/axios';
@@ -45,7 +46,8 @@ const PRICE_MAX = 15000;
 const PRICE_MIN = 999;
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
-export default function ServicesPage() {
+function ServicesContent() {
+  const searchParams = useSearchParams();
   const [services, setServices]     = useState<IService[]>([]);
   const [categories, setCategories] = useState<ICategory[]>(FALLBACK_CATEGORIES);
   const [cities, setCities]         = useState<ICity[]>(FALLBACK_CITIES);
@@ -57,6 +59,18 @@ export default function ServicesPage() {
   const [filters, setFilters]       = useState<ServiceFilters>({
     sort: 'createdAt', order: 'desc', limit: 12,
   });
+
+  // Read URL query params on mount (e.g. from 'Deco starts from ₹1999' CTA)
+  useEffect(() => {
+    const maxPriceParam = searchParams.get('maxPrice');
+    if (maxPriceParam) {
+      const priceVal = Number(maxPriceParam);
+      if (!isNaN(priceVal) && priceVal > 0) {
+        setFilters((prev) => ({ ...prev, maxPrice: priceVal }));
+        setShowFilters(true);
+      }
+    }
+  }, [searchParams]);
 
   const fetchServices = useCallback(async () => {
     setLoading(true);
@@ -377,6 +391,21 @@ export default function ServicesPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ServicesPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen pt-24 pb-12 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-8 h-8 border-2 border-gold-500/20 border-t-gold-500 rounded-full animate-spin" />
+          <p className="text-white/50 text-sm animate-pulse">Loading experiences...</p>
+        </div>
+      </div>
+    }>
+      <ServicesContent />
+    </Suspense>
   );
 }
 

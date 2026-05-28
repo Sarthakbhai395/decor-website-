@@ -73,9 +73,9 @@ const config: Config = {
         ring: 'hsl(var(--ring))',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
-        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
-        display: ['var(--font-cormorant)', 'Georgia', 'serif'],
+        sans: ['var(--font-jakarta)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-outfit)', 'system-ui', 'sans-serif'],
       },
       backgroundImage: {
         'luxury-gradient': 'linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 50%, #0a0a0a 100%)',
