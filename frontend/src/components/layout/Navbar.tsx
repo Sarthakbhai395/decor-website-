@@ -43,9 +43,7 @@ function SidebarContactButton() {
   const [showOptions, setShowOptions] = useState(false);
 
   return (
-    <div className="px-4 py-4 border-t border-gold-500/10"
-      style={{ background: 'linear-gradient(to top, rgba(10,10,10,0.98), rgba(13,13,13,0.95))' }}
-    >
+    <div className="w-full">
       <AnimatePresence>
         {showOptions && (
           <motion.div
@@ -60,8 +58,8 @@ function SidebarContactButton() {
               href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'd like to book a luxury decoration service.")}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 w-full px-4 py-3 rounded-2xl font-bold text-sm text-white transition-all active:scale-95"
-              style={{ background: '#25D366' }}
+              className="flex items-center gap-3 w-full px-4 py-3 rounded-2xl font-bold text-sm text-white transition-all active:scale-95 shadow-[0_0_15px_rgba(37,211,102,0.3)]"
+              style={{ backgroundColor: '#25D366' }}
             >
               <MessageCircle className="w-4 h-4 fill-white" />
               <span>Chat on WhatsApp</span>
@@ -69,8 +67,8 @@ function SidebarContactButton() {
             {/* Call */}
             <a
               href={`tel:${PHONE_NUMBER}`}
-              className="relative flex items-center gap-3 w-full px-4 py-3 rounded-2xl overflow-hidden font-bold text-sm text-luxury-black transition-all active:scale-95"
-              style={{ background: 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)', backgroundSize: '200% auto' }}
+              className="relative flex items-center gap-3 w-full px-4 py-3 rounded-2xl overflow-hidden font-bold text-sm text-luxury-black transition-all active:scale-95 shadow-[0_0_15px_rgba(201,169,110,0.3)]"
+              style={{ backgroundImage: 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)', backgroundSize: '200% auto' }}
             >
               <Phone className="w-4 h-4 relative z-10" />
               <span className="relative z-10">Call Us Now</span>
@@ -79,27 +77,32 @@ function SidebarContactButton() {
         )}
       </AnimatePresence>
 
-      <button
-        onClick={() => setShowOptions(!showOptions)}
-        className="relative flex items-center justify-center gap-3 w-full py-3.5 rounded-2xl overflow-hidden font-bold text-sm transition-all active:scale-95"
-        style={{
-          background: showOptions
-            ? 'rgba(201, 169, 110, 0.12)'
-            : 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)',
-          backgroundSize: '200% auto',
-          color: showOptions ? '#f0d080' : '#0a0a0a',
-          border: showOptions ? '1px solid rgba(201, 169, 110, 0.3)' : 'none',
-        }}
-      >
-        {!showOptions && (
-          <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 pointer-events-none" />
-        )}
-        <div className="flex items-center gap-1.5 relative z-10">
-          <Phone className="w-4 h-4" />
-          <MessageCircle className="w-4 h-4" />
-        </div>
-        <span className="relative z-10">{showOptions ? 'Close' : 'Contact Us'}</span>
-      </button>
+      <div className="relative rounded-2xl p-[1.5px] overflow-hidden group shadow-[0_0_15px_rgba(201,169,110,0.4)] hover:shadow-[0_0_20px_rgba(201,169,110,0.6)] transition-shadow duration-300">
+        {/* Flare effect */}
+        <div className="absolute inset-0 bg-gradient-to-r from-gold-500/40 via-gold-200 to-gold-500/40 animate-pulse" />
+        
+        <button
+          onClick={() => setShowOptions(!showOptions)}
+          className="relative flex items-center justify-center gap-3 w-full py-3.5 rounded-2xl overflow-hidden font-bold text-sm transition-all active:scale-95"
+          style={{
+            backgroundImage: showOptions
+              ? 'none'
+              : 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)',
+            backgroundColor: showOptions ? 'rgba(15, 15, 15, 0.98)' : 'transparent',
+            backgroundSize: '200% auto',
+            color: showOptions ? '#f0d080' : '#0a0a0a',
+          }}
+        >
+          {!showOptions && (
+            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12 pointer-events-none" />
+          )}
+          <div className="flex items-center gap-1.5 relative z-10">
+            <Phone className="w-4 h-4" />
+            <MessageCircle className="w-4 h-4" />
+          </div>
+          <span className="relative z-10">{showOptions ? 'Close' : 'Contact Us'}</span>
+        </button>
+      </div>
     </div>
   );
 }
@@ -257,7 +260,7 @@ export default function Navbar() {
               <a
                 href={`tel:${PHONE_NUMBER}`}
                 className="relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-full overflow-hidden group"
-                style={{ background: 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)', backgroundSize: '200% auto' }}
+                style={{ backgroundImage: 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)', backgroundSize: '200% auto' }}
                 aria-label="Call us"
               >
                 <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12 pointer-events-none" />
@@ -395,8 +398,8 @@ export default function Navbar() {
                 </button>
               </div>
 
-              {/* Non-Scrollable compact content */}
-              <div className="flex-1 flex flex-col justify-start overflow-hidden">
+              {/* Scrollable compact content */}
+              <div className="flex-1 flex flex-col justify-start overflow-y-auto overflow-x-hidden pb-8 custom-scrollbar">
                 {/* Categories — on top */}
                 <div className="px-3 pt-2 pb-1">
                   <p className="text-[9px] text-white/30 uppercase tracking-widest font-medium px-2 mb-1">Categories</p>
@@ -451,6 +454,11 @@ export default function Navbar() {
                       </Link>
                     </motion.div>
                   ))}
+
+                  {/* Contact Button Moved Here */}
+                  <div className="mt-4 mb-2 px-1">
+                    <SidebarContactButton />
+                  </div>
                 </div>
 
                 {/* Auth links */}
@@ -467,11 +475,7 @@ export default function Navbar() {
                     </Link>
                   </div>
                 )}
-                <div className="flex-1"></div>
               </div>
-
-              {/* ── Sticky Bottom: Combined Contact Button ── */}
-              <SidebarContactButton />
             </motion.div>
           </>
         )}

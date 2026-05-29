@@ -185,7 +185,7 @@ export default function MobileBottomNav() {
 
           {/* Center CTA — Decoration under ₹2499 */}
           <Link
-            href="/services?maxPrice=2499"
+            href="/budget-deals"
             className="flex flex-col items-center -mt-6 group"
           >
             <div

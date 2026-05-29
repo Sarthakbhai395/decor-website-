@@ -109,6 +109,7 @@ export default function FloatingContactButtons() {
   const [glowing, setGlowing] = useState(false);
 
   const isProductPage = pathname?.startsWith('/services/');
+  const isBookingPage = pathname?.startsWith('/booking-contact');
 
   // Show floating button after 2 seconds
   useEffect(() => {
@@ -118,7 +119,7 @@ export default function FloatingContactButtons() {
 
   // Auto-show popup on initial load after delay
   useEffect(() => {
-    if (!visible) return;
+    if (!visible || isBookingPage) return;
     const timer = setTimeout(() => {
       if (!dismissed) {
         setGlowing(true);
@@ -128,7 +129,7 @@ export default function FloatingContactButtons() {
       }
     }, INITIAL_DELAY);
     return () => clearTimeout(timer);
-  }, [visible, dismissed]);
+  }, [visible, dismissed, isBookingPage]);
 
   // Auto-hide popup after POPUP_VISIBLE_DURATION
   useEffect(() => {
@@ -142,7 +143,7 @@ export default function FloatingContactButtons() {
 
   // Trigger popup on navigation
   useEffect(() => {
-    if (prevPath && prevPath !== pathname && !dismissed) {
+    if (prevPath && prevPath !== pathname && !dismissed && !isBookingPage) {
       const timer = setTimeout(() => {
         setGlowing(true);
         setTimeout(() => setShowPopup(true), 400);
@@ -150,7 +151,7 @@ export default function FloatingContactButtons() {
       return () => clearTimeout(timer);
     }
     setPrevPath(pathname ?? '');
-  }, [pathname, dismissed, prevPath]);
+  }, [pathname, dismissed, prevPath, isBookingPage]);
 
   // Track initial path
   useEffect(() => {
@@ -173,11 +174,11 @@ export default function FloatingContactButtons() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.5 }}
           transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-          className={`fixed ${isProductPage ? 'bottom-28 sm:bottom-32' : 'bottom-10 sm:bottom-12'} right-4 sm:right-6 z-50 flex flex-col items-end gap-3`}
+          className={`fixed ${isProductPage ? 'bottom-32 md:bottom-12' : 'bottom-24 md:bottom-10'} right-4 md:right-6 z-[85] flex flex-col items-end gap-3`}
         >
           {/* ─── Genie Popup ─── */}
           <AnimatePresence>
-            {showPopup && (
+            {showPopup && !isBookingPage && (
               <motion.div
                 variants={geniePopupVariants}
                 initial="hidden"
@@ -330,7 +331,7 @@ export default function FloatingContactButtons() {
           <div className="relative">
             {/* Genie glow ring — pulses when popup is active */}
             <AnimatePresence>
-              {glowing && (
+              {glowing && !isBookingPage && (
                 <motion.div
                   className="absolute inset-0 rounded-full pointer-events-none"
                   initial={{ scale: 1, opacity: 0 }}
