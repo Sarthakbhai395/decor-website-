@@ -21,7 +21,6 @@ const navLinks = [
   { href: '/categories', label: 'Categories', hasDropdown: true },
   { href: '/gallery', label: 'Gallery' },
   { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
 ];
 
 const SIDEBAR_CATEGORIES = [
@@ -167,7 +166,7 @@ export default function Navbar() {
               <div className="hidden sm:block">
                 <span className="text-base font-display font-bold text-gold-gradient" style={{ textShadow: '0 0 20px rgba(201,169,110,0.6)', letterSpacing: '0.02em' }}>Melting Eve</span>
               </div>
-              <span className="sm:hidden text-sm font-display font-bold text-gold-gradient" style={{ textShadow: '0 0 16px rgba(201,169,110,0.6)' }}>ME</span>
+              <span className="sm:hidden text-sm font-display font-bold text-gold-gradient truncate" style={{ textShadow: '0 0 16px rgba(201,169,110,0.6)' }}>Melting Eve</span>
             </Link>
 
             {/* Desktop Nav */}
@@ -396,24 +395,24 @@ export default function Navbar() {
                 </button>
               </div>
 
-              {/* Scrollable content */}
-              <div className="flex-1 overflow-y-auto no-scrollbar">
+              {/* Non-Scrollable compact content */}
+              <div className="flex-1 flex flex-col justify-start overflow-hidden">
                 {/* Categories — on top */}
-                <div className="px-4 pt-4 pb-2">
-                  <p className="text-[10px] text-white/30 uppercase tracking-widest font-medium px-2 mb-2">Categories</p>
+                <div className="px-3 pt-2 pb-1">
+                  <p className="text-[9px] text-white/30 uppercase tracking-widest font-medium px-2 mb-1">Categories</p>
                   {SIDEBAR_CATEGORIES.map((cat, i) => (
                     <motion.div
                       key={cat.slug}
                       initial={{ opacity: 0, x: -16 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.04 }}
+                      transition={{ delay: i * 0.02 }}
                     >
                       <Link
                         href={`/categories/${cat.slug}`}
                         onClick={() => setIsOpen(false)}
-                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-white/60 hover:text-white hover:bg-white/5 transition-all mb-0.5"
+                        className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/5 transition-all mb-0.5"
                       >
-                        <span className="text-base w-6 text-center flex-shrink-0">{cat.emoji}</span>
+                        <span className="text-sm w-5 text-center flex-shrink-0 opacity-80" style={{ filter: 'sepia(1) hue-rotate(-20deg) saturate(3)' }}>{cat.emoji}</span>
                         <span>{cat.label}</span>
                       </Link>
                     </motion.div>
@@ -421,14 +420,14 @@ export default function Navbar() {
                 </div>
 
                 {/* Nav links — Pages at bottom */}
-                <div className="px-4 pt-2 pb-2 border-t border-white/5">
-                  <p className="text-[10px] text-white/30 uppercase tracking-widest font-medium px-2 mb-2">Navigation</p>
+                <div className="px-3 pt-1 pb-1 border-t border-white/5">
+                  <p className="text-[9px] text-white/30 uppercase tracking-widest font-medium px-2 mb-1">Navigation</p>
                   {navLinks
                     .filter((link) =>
-                      ['/categories', '/about', '/contact'].includes(link.href)
+                      ['/categories', '/about'].includes(link.href)
                     )
                     .sort((a, b) => {
-                      const order = ['/categories', '/about', '/contact'];
+                      const order = ['/categories', '/about'];
                       return order.indexOf(a.href) - order.indexOf(b.href);
                     })
                     .map((link, i) => (
@@ -436,16 +435,16 @@ export default function Navbar() {
                       key={link.href}
                       initial={{ opacity: 0, x: -16 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: (SIDEBAR_CATEGORIES.length + i) * 0.04 }}
+                      transition={{ delay: (SIDEBAR_CATEGORIES.length + i) * 0.02 }}
                     >
                       <Link
                         href={link.href}
                         onClick={() => setIsOpen(false)}
                         className={cn(
-                          'flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-all mb-0.5',
+                          'flex items-center px-2 py-1.5 rounded-lg text-xs font-medium transition-all mb-0.5',
                           pathname === link.href || (link.href === '/categories' && pathname.startsWith('/categories'))
                             ? 'text-gold-500 bg-gold-500/10 border border-gold-500/20'
-                            : 'text-white/70 hover:text-white hover:bg-white/5'
+                            : 'text-gold-500/70 hover:text-gold-500 hover:bg-white/5'
                         )}
                       >
                         {link.label}
@@ -456,18 +455,19 @@ export default function Navbar() {
 
                 {/* Auth links */}
                 {isAuthenticated && (
-                  <div className="px-4 pb-4 border-t border-white/5 pt-3">
-                    <p className="text-[10px] text-white/30 uppercase tracking-widest font-medium px-2 mb-2">Account</p>
+                  <div className="px-3 pb-2 border-t border-white/5 pt-1">
+                    <p className="text-[9px] text-white/30 uppercase tracking-widest font-medium px-2 mb-1">Account</p>
                     <Link href="/dashboard/wishlist" onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-white/60 hover:text-white hover:bg-white/5 transition-all mb-0.5">
-                      <Heart className="w-4 h-4 text-rose-400" /> Wishlist
+                      className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/5 transition-all mb-0.5">
+                      <Heart className="w-3.5 h-3.5 text-gold-500" /> Wishlist
                     </Link>
                     <Link href="/dashboard/bookings" onClick={() => setIsOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-white/60 hover:text-white hover:bg-white/5 transition-all mb-0.5">
-                      <User className="w-4 h-4 text-gold-500" /> My Dashboard
+                      className="flex items-center gap-2 px-2 py-1.5 rounded-lg text-xs text-white/60 hover:text-white hover:bg-white/5 transition-all mb-0.5">
+                      <User className="w-3.5 h-3.5 text-gold-500" /> My Dashboard
                     </Link>
                   </div>
                 )}
+                <div className="flex-1"></div>
               </div>
 
               {/* ── Sticky Bottom: Combined Contact Button ── */}

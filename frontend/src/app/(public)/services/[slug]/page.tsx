@@ -678,9 +678,9 @@ export default function ServiceDetailPage() {
 
           {/* Main CTA → booking-contact page */}
           <Link href={`/booking-contact?service=${slug}`} className="flex-1 min-w-0">
-            <button className="w-full btn-luxury flex items-center justify-center gap-1.5 py-2.5 text-xs sm:text-sm">
+            <button className="w-full btn-luxury flex items-center justify-center gap-1.5 py-2.5 text-[11px] sm:text-sm px-1 sm:px-4">
               <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="truncate">instant book</span>
+              <span className="whitespace-nowrap font-bold uppercase tracking-wider">instant book</span>
             </button>
           </Link>
 

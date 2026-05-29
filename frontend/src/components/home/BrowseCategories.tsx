@@ -147,7 +147,7 @@ function BrowseCategoryCard({ cat, index }: { cat: BrowseCategory; index: number
                   'linear-gradient(145deg, rgba(255,255,255,0.97) 0%, rgba(245,240,232,0.95) 100%)',
                 boxShadow:
                   '0 3px 10px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.4)',
-                border: '1.5px solid rgba(201, 169, 110, 0.5)',
+                /* border removed as requested */
               }}
             >
               <span className="text-xs sm:text-base drop-shadow-sm">{cat.emoji}</span>

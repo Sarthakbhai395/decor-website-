@@ -18,8 +18,8 @@ export default function MobileBottomNav() {
     setMounted(true);
   }, []);
 
-  // Hide on product/service detail pages (they have their own sticky bar)
-  const isProductPage = pathname?.match(/^\/services\/[^/]+$/);
+  // Hide on product/service detail pages and booking pages
+  const isProductPage = pathname?.match(/^\/services\/[^/]+$/) || pathname?.startsWith('/booking-contact');
   
   // Close popup on route change
   useEffect(() => {
@@ -183,38 +183,49 @@ export default function MobileBottomNav() {
             </span>
           </Link>
 
-          {/* Center CTA — Deco starts from ₹1999 */}
+          {/* Center CTA — Decoration under ₹2499 */}
           <Link
-            href="/services?maxPrice=1999"
-            className="flex flex-col items-center -mt-4 group"
+            href="/services?maxPrice=2499"
+            className="flex flex-col items-center -mt-6 group"
           >
             <div
-              className="relative px-4 py-2.5 rounded-full overflow-hidden active:scale-95 transition-transform duration-150"
+              className="relative rounded-[30px] overflow-hidden active:scale-95 transition-transform duration-150"
               style={{
-                background: 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)',
-                backgroundSize: '200% auto',
+                padding: '2px',
                 boxShadow: '0 4px 20px rgba(201, 169, 110, 0.4), 0 0 0 3px rgba(8, 8, 8, 0.99)',
+                background: '#0a0a0a',
               }}
             >
-              {/* Shimmer sweep */}
-              <span
-                className="absolute inset-0 pointer-events-none"
+              {/* Rotating Flare for border */}
+              <div
+                className="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] pointer-events-none"
                 style={{
-                  background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.35) 50%, transparent 60%)',
-                  backgroundSize: '200% 100%',
-                  animation: 'callShine 2.5s linear infinite',
+                  background: 'conic-gradient(from 0deg, transparent 70%, #fff 85%, transparent 100%)',
+                  animation: 'spinFlare 2.5s linear infinite',
                 }}
               />
-              <div className="flex items-center gap-1 relative z-10">
-                <Sparkles className="w-3.5 h-3.5 text-luxury-black" />
-                <div className="flex flex-col items-center leading-none">
-                  <span className="text-[8px] font-bold text-luxury-black/70 tracking-wider uppercase">
-                    Deco starts from
-                  </span>
-                  <span className="text-[13px] font-black text-luxury-black tracking-tight">
-                    ₹1999
-                  </span>
-                </div>
+              {/* Inner Golden Pill */}
+              <div 
+                className="relative z-10 px-5 py-2 rounded-[28px] flex flex-col items-center leading-none"
+                style={{
+                  background: 'linear-gradient(135deg, #c9a96e 0%, #f0d080 50%, #c9a96e 100%)',
+                }}
+              >
+                 {/* Shimmer sweep */}
+                <span
+                  className="absolute inset-0 pointer-events-none rounded-[28px]"
+                  style={{
+                    background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.35) 50%, transparent 60%)',
+                    backgroundSize: '200% 100%',
+                    animation: 'callShine 2.5s linear infinite',
+                  }}
+                />
+                <span className="text-[9px] font-bold text-luxury-black/70 tracking-widest uppercase mb-1 relative z-10">
+                  Decoration under
+                </span>
+                <span className="text-xl font-black text-luxury-black tracking-tight leading-none relative z-10">
+                  ₹2499
+                </span>
               </div>
             </div>
           </Link>
