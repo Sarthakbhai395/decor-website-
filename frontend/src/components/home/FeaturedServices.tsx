@@ -170,13 +170,8 @@ export default function FeaturedServices() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.05 });
 
   useEffect(() => {
-    api
-      .get('/services/featured')
-      .then(({ data }) =>
-        setServices(data.data?.length ? data.data : FALLBACK_SERVICES),
-      )
-      .catch(() => setServices(FALLBACK_SERVICES))
-      .finally(() => setLoading(false));
+    setServices(FALLBACK_SERVICES);
+    setLoading(false);
   }, []);
 
   return (

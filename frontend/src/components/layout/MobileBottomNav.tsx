@@ -1,129 +1,40 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, LayoutGrid, Phone, MessageCircle, Sparkles, X } from 'lucide-react';
+import { Home, LayoutGrid, X } from 'lucide-react';
 
 const PHONE_NUMBER = '+916306059912';
 const WA_NUMBER = '916306059912';
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
-  const [showContactPopup, setShowContactPopup] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    // Show popup shortly after mount
+    const timer = setTimeout(() => setShowPopup(true), 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   // Hide on product/service detail pages and booking pages
   const isProductPage = pathname?.match(/^\/services\/[^/]+$/) || pathname?.startsWith('/booking-contact');
-  
-  // Close popup on route change
-  useEffect(() => {
-    setShowContactPopup(false);
-  }, [pathname]);
-
-  // Close popup when clicking outside
-  const handleBackdropClick = useCallback(() => {
-    setShowContactPopup(false);
-  }, []);
 
   if (!mounted || isProductPage) return null;
 
   const isHome = pathname === '/';
   const isExplore = pathname === '/categories' || pathname?.startsWith('/categories/');
 
+  // Golden color constant
+  const GOLD = '#c9a96e';
+  const GOLD_ACTIVE = '#f0d080';
+
   return (
     <>
-      {/* Contact Popup Overlay */}
-      <AnimatePresence>
-        {showContactPopup && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-[90] bg-black/60 md:hidden"
-              onClick={handleBackdropClick}
-            />
-
-            {/* Popup */}
-            <motion.div
-              initial={{ opacity: 0, y: 30, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 30, scale: 0.9 }}
-              transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-              className="fixed bottom-[80px] right-3 z-[95] w-[200px] rounded-2xl overflow-hidden md:hidden"
-              style={{
-                background: 'rgba(14, 14, 14, 0.96)',
-                border: '1px solid rgba(201, 169, 110, 0.3)',
-                backdropFilter: 'blur(20px)',
-                boxShadow: '0 16px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(201, 169, 110, 0.08)',
-              }}
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between px-4 pt-3 pb-2">
-                <span className="text-[11px] font-semibold text-white/80 tracking-wide">Get in Touch</span>
-                <button
-                  onClick={() => setShowContactPopup(false)}
-                  className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center text-white/50 hover:text-white transition-colors"
-                >
-                  <X className="w-3 h-3" />
-                </button>
-              </div>
-
-              {/* Options */}
-              <div className="px-3 pb-3 space-y-1.5">
-                {/* Chat Option */}
-                <a
-                  href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hi! I'm interested in booking a decoration service.")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all active:scale-95 group"
-                  style={{ background: 'rgba(37, 211, 102, 0.12)' }}
-                  onClick={() => setShowContactPopup(false)}
-                >
-                  <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ background: '#25D366' }}
-                  >
-                    <MessageCircle className="w-4 h-4 text-white fill-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-white">Chat</p>
-                    <p className="text-[10px] text-white/40">WhatsApp</p>
-                  </div>
-                </a>
-
-                {/* Call Option */}
-                <a
-                  href={`tel:${PHONE_NUMBER}`}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all active:scale-95 group"
-                  style={{ background: 'rgba(201, 169, 110, 0.1)' }}
-                  onClick={() => setShowContactPopup(false)}
-                >
-                  <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'linear-gradient(135deg, #c9a96e 0%, #f0d080 100%)' }}
-                  >
-                    <Phone className="w-4 h-4 text-luxury-black" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-white">Call</p>
-                    <p className="text-[10px] text-white/40">Dial Now</p>
-                  </div>
-                </a>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
       {/* ── Bottom Navigation Bar ── */}
       <nav
         className="fixed bottom-0 left-0 right-0 z-[80] md:hidden"
@@ -132,6 +43,51 @@ export default function MobileBottomNav() {
           borderTop: '1px solid rgba(201, 169, 110, 0.15)',
         }}
       >
+        {/* Animated Calling Popup */}
+        <AnimatePresence>
+          {showPopup && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0, y: 30 }}
+              transition={{ type: 'spring', damping: 20, stiffness: 200 }}
+              className="absolute right-3 bottom-[75px] w-48 bg-luxury-dark border-2 border-gold-500 rounded-2xl p-4 flex flex-col items-center text-center z-[100]"
+              style={{
+                transformOrigin: 'calc(100% - 20px) 100%',
+                boxShadow: '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(201,169,110,0.3)',
+              }}
+            >
+              <button
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowPopup(false); }}
+                className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-luxury-black border border-gold-500 flex items-center justify-center text-white hover:text-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              
+              <div className="w-12 h-12 rounded-full bg-gold-gradient flex items-center justify-center mb-3 shadow-[0_0_15px_rgba(201,169,110,0.5)] relative overflow-hidden">
+                <span className="absolute inset-0 bg-white/20 animate-ping rounded-full" style={{ animationDuration: '2s' }} />
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10">
+                  <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" fill="#000" />
+                </svg>
+              </div>
+              
+              <h3 className="text-sm font-black text-white uppercase tracking-wider mb-1">Need Help?</h3>
+              <p className="text-[10px] text-white/70 mb-4">Talk to our decoration experts instantly!</p>
+              
+              <a
+                href={`tel:${PHONE_NUMBER}`}
+                onClick={() => setShowPopup(false)}
+                className="w-full bg-gold-gradient text-luxury-black font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 active:scale-95 transition-transform"
+              >
+                Call Now
+              </a>
+              
+              {/* Pointing triangle to the call icon */}
+              <div className="absolute -bottom-[10px] right-[24px] w-4 h-4 bg-luxury-dark border-r-2 border-b-2 border-gold-500 transform rotate-45" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div className="flex items-end justify-around px-1 pt-1.5 pb-2 max-w-lg mx-auto relative">
           {/* Home */}
           <Link
@@ -144,15 +100,13 @@ export default function MobileBottomNav() {
               }`}
             >
               <Home
-                className={`w-[18px] h-[18px] transition-colors duration-200 ${
-                  isHome ? 'text-gold-500' : 'text-white/45 group-active:text-white/70'
-                }`}
+                className="w-[18px] h-[18px] transition-colors duration-200"
+                style={{ color: isHome ? GOLD_ACTIVE : GOLD }}
               />
             </div>
             <span
-              className={`text-[9px] font-semibold tracking-wide transition-colors duration-200 ${
-                isHome ? 'text-gold-500' : 'text-white/40'
-              }`}
+              className="text-[9px] font-semibold tracking-wide transition-colors duration-200"
+              style={{ color: isHome ? GOLD_ACTIVE : GOLD }}
             >
               Home
             </span>
@@ -169,15 +123,13 @@ export default function MobileBottomNav() {
               }`}
             >
               <LayoutGrid
-                className={`w-[18px] h-[18px] transition-colors duration-200 ${
-                  isExplore ? 'text-gold-500' : 'text-white/45 group-active:text-white/70'
-                }`}
+                className="w-[18px] h-[18px] transition-colors duration-200"
+                style={{ color: isExplore ? GOLD_ACTIVE : GOLD }}
               />
             </div>
             <span
-              className={`text-[9px] font-semibold tracking-wide transition-colors duration-200 ${
-                isExplore ? 'text-gold-500' : 'text-white/40'
-              }`}
+              className="text-[9px] font-semibold tracking-wide transition-colors duration-200"
+              style={{ color: isExplore ? GOLD_ACTIVE : GOLD }}
             >
               Explore
             </span>
@@ -230,37 +182,33 @@ export default function MobileBottomNav() {
             </div>
           </Link>
 
-          {/* Contact — Combined Call + WhatsApp */}
-          <button
-            onClick={() => setShowContactPopup(!showContactPopup)}
+          {/* Contact — Real Phone Icon (Android-style) */}
+          <a
+            href={`tel:${PHONE_NUMBER}`}
             className="flex flex-col items-center gap-0.5 py-1 px-3 min-w-[56px] group"
           >
-            <div
-              className={`w-6 h-6 flex items-center justify-center rounded-lg transition-all duration-200 ${
-                showContactPopup ? 'bg-gold-500/15' : ''
-              }`}
-            >
-              <div className="flex items-center -space-x-1">
-                <Phone
-                  className={`w-[14px] h-[14px] transition-colors duration-200 ${
-                    showContactPopup ? 'text-gold-500' : 'text-white/45 group-active:text-white/70'
-                  }`}
+            <div className="w-6 h-6 flex items-center justify-center rounded-lg transition-all duration-200">
+              {/* Real Android phone SVG icon */}
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                  fill={GOLD}
                 />
-                <MessageCircle
-                  className={`w-[14px] h-[14px] transition-colors duration-200 ${
-                    showContactPopup ? 'text-green-400' : 'text-white/45 group-active:text-white/70'
-                  }`}
-                />
-              </div>
+              </svg>
             </div>
             <span
-              className={`text-[9px] font-semibold tracking-wide transition-colors duration-200 ${
-                showContactPopup ? 'text-gold-500' : 'text-white/40'
-              }`}
+              className="text-[9px] font-semibold tracking-wide transition-colors duration-200"
+              style={{ color: GOLD }}
             >
-              Contact
+              Call
             </span>
-          </button>
+          </a>
         </div>
       </nav>
     </>

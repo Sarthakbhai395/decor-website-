@@ -401,16 +401,6 @@ export default function ServiceDetailPage() {
         setLoading(false);
         return;
       }
-      try {
-        const { data } = await api.get(`/services/${slug}`);
-        if (data?.data) {
-          setService(data.data);
-          const cat = typeof data.data.category === 'object' ? data.data.category.slug : '';
-          setRelated(ALL_STATIC_SERVICES.filter((s) => s.category === cat).slice(0, 6));
-          setLoading(false);
-          return;
-        }
-      } catch { /* fall through */ }
       router.push('/services');
       setLoading(false);
     };

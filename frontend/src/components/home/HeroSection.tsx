@@ -27,8 +27,8 @@ const HERO_SLIDES = [
     subtitle: 'Celebrations',
     description: 'Breathtaking balloon art and premium decorations for every occasion.',
     image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1200&q=75&auto=format',
-    cta: 'View Gallery',
-    ctaLink: '/gallery',
+    cta: 'Explore Now',
+    ctaLink: '/services',
   },
 ];
 

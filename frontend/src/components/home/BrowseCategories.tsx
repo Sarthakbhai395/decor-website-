@@ -105,24 +105,17 @@ const cardVariants = {
   },
 };
 
-/* ─── Single Category Card ──────────────────────────────────────────────── */
-function BrowseCategoryCard({ cat, index }: { cat: BrowseCategory; index: number }) {
+/* ─── Single Category Card (matches reference image design) ─────────────── */
+function BrowseCategoryCard({ cat }: { cat: BrowseCategory }) {
   return (
     <motion.div variants={cardVariants}>
       <Link href={`/categories/${cat.slug}`} className="block group">
-        <div
-          className="relative flex flex-col rounded-[16px] sm:rounded-[20px] overflow-hidden transition-all duration-400"
-          style={{
-            background:
-              'linear-gradient(165deg, rgba(22,20,18,0.95) 0%, rgba(10,10,10,0.98) 100%)',
-            border: '1px solid rgba(201, 169, 110, 0.15)',
-            boxShadow:
-              '0 4px 20px rgba(0, 0, 0, 0.4), 0 0 0 0.5px rgba(201, 169, 110, 0.08)',
-          }}
-        >
-          {/* ── Image Container ── */}
-          <div className="relative w-full aspect-[4/3.2] overflow-hidden rounded-t-[16px] sm:rounded-t-[20px]">
-            <div className="w-full h-full transition-transform duration-500 ease-out group-hover:scale-[1.06]">
+        <div className="relative flex flex-col items-center">
+          {/* ── Image Container with rounded corners ── */}
+          <div
+            className="relative w-full aspect-[3/3.5] overflow-visible transition-all duration-400"
+          >
+            <div className="w-full h-full overflow-hidden transition-transform duration-500 ease-out group-hover:scale-[1.06]" style={{ borderRadius: '16px' }}>
               <img
                 src={cat.image}
                 alt={cat.label}
@@ -130,43 +123,38 @@ function BrowseCategoryCard({ cat, index }: { cat: BrowseCategory; index: number
                 loading="lazy"
                 decoding="async"
               />
+              {/* Dark gradient overlay at bottom for depth */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent pointer-events-none" />
+              {/* Golden hover glow */}
+              <div className="absolute inset-0 bg-amber-500/0 group-hover:bg-amber-500/10 transition-colors duration-500 pointer-events-none" />
             </div>
-            {/* Cinematic overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent" />
-            {/* Golden hover glow */}
-            <div className="absolute inset-0 bg-amber-500/0 group-hover:bg-amber-500/10 transition-colors duration-500 pointer-events-none" />
-          </div>
 
-          {/* ── Icon Badge + Label ── */}
-          <div className="flex flex-col items-center py-2 sm:py-3 px-1 text-center">
-            {/* Emoji Icon Badge */}
+            {/* ── Golden Circle Icon Badge (overlapping image bottom) ── */}
             <div
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center mb-1 sm:mb-1.5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
+              className="absolute flex items-center justify-center transition-all duration-300 group-hover:scale-110"
               style={{
-                background:
-                  'linear-gradient(145deg, rgba(255,255,255,0.97) 0%, rgba(245,240,232,0.95) 100%)',
-                boxShadow:
-                  '0 3px 10px rgba(0, 0, 0, 0.35), inset 0 1px 2px rgba(255, 255, 255, 0.4)',
-                /* border removed as requested */
+                width: '40px',
+                height: '40px',
+                bottom: '-20px',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                borderRadius: '50%',
+                background: 'linear-gradient(145deg, #0a0a0a 0%, #111111 100%)',
+                border: '2.5px solid #c9a96e',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.6), 0 0 12px rgba(201, 169, 110, 0.2)',
+                zIndex: 10,
               }}
             >
-              <span className="text-xs sm:text-base drop-shadow-sm">{cat.emoji}</span>
+              <span className="text-sm drop-shadow-sm" style={{ filter: 'sepia(1) hue-rotate(-20deg) saturate(3) brightness(1.1)' }}>{cat.emoji}</span>
             </div>
-
-            {/* Category Label */}
-            <h3 className="font-semibold text-[9px] sm:text-[11px] text-white/85 tracking-wide line-clamp-1 transition-colors duration-300 group-hover:text-[#f0d080]">
-              {index + 1}. {cat.label}
-            </h3>
           </div>
 
-          {/* Subtle border glow on hover */}
-          <div
-            className="absolute inset-0 rounded-[16px] sm:rounded-[20px] pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-            style={{
-              boxShadow:
-                'inset 0 0 0 1px rgba(201, 169, 110, 0.3), 0 0 20px rgba(201, 169, 110, 0.08)',
-            }}
-          />
+          {/* ── Category Label below ── */}
+          <h3
+            className="font-bold text-[10px] sm:text-xs text-white tracking-wide text-center mt-7 transition-colors duration-300 group-hover:text-[#f0d080] line-clamp-1"
+          >
+            {cat.label}
+          </h3>
         </div>
       </Link>
     </motion.div>
@@ -254,10 +242,10 @@ export default function BrowseCategories() {
           variants={containerVariants}
           initial="hidden"
           animate={inView ? 'visible' : 'hidden'}
-          className="grid grid-cols-3 gap-2 sm:gap-3.5 lg:gap-4"
+          className="grid grid-cols-3 gap-3 sm:gap-4 lg:gap-5"
         >
-          {BROWSE_CATEGORIES.map((cat, i) => (
-            <BrowseCategoryCard key={cat.slug} cat={cat} index={i} />
+          {BROWSE_CATEGORIES.map((cat) => (
+            <BrowseCategoryCard key={cat.slug} cat={cat} />
           ))}
         </motion.div>
 

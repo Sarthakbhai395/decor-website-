@@ -300,14 +300,7 @@ export default function CategoryPage() {
 
       {/* Services Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-        <div className="flex items-center justify-between mb-6">
-          <p className="text-sm text-white/50">
-            <span className="text-white font-semibold">{displayServices.length}</span> services available
-          </p>
-          <Link href="/services" className="text-xs text-gold-500 hover:text-gold-400 transition-colors flex items-center gap-1">
-            View all services
-          </Link>
-        </div>
+        <div className="mb-6" />
 
         {displayServices.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5">

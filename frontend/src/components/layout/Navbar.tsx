@@ -19,7 +19,6 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/services', label: 'Services' },
   { href: '/categories', label: 'Categories', hasDropdown: true },
-  { href: '/gallery', label: 'Gallery' },
   { href: '/about', label: 'About' },
 ];
 

@@ -17,14 +17,7 @@ export default function BlogDetailPage() {
   useEffect(() => {
     const fetchBlog = async () => {
       setLoading(true);
-      try {
-        const { data } = await api.get(`/blogs/${slug}`);
-        setBlog(data.data);
-      } catch {
-        router.push('/blog');
-      } finally {
-        setLoading(false);
-      }
+      router.push('/blog');
     };
     if (slug) fetchBlog();
   }, [slug, router]);

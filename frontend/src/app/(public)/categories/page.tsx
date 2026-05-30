@@ -43,26 +43,7 @@ export default function CategoriesPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        // Smart URL: localhost on PC, LAN IP on mobile
-        const hostname = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
-        const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
-        const apiBase = isLocalhost
-          ? 'http://localhost:5000/api/v1'
-          : (process.env.NEXT_PUBLIC_API_URL || `http://${hostname}:5000/api/v1`);
-
-        const controller = new AbortController();
-        const timer = setTimeout(() => controller.abort(), 5000);
-
-        const res = await fetch(`${apiBase}/categories`, {
-          signal: controller.signal,
-          cache: 'no-store',
-        });
-        clearTimeout(timer);
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data.data?.length > 0) setCategories(data.data);
-        }
+        setCategories(FALLBACK_CATEGORIES);
       } catch {
         // Backend offline — keep fallback categories silently
       } finally {
