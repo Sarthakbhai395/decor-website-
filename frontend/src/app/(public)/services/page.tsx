@@ -288,11 +288,22 @@ function ServicesContent() {
           </div>
         </div>
 
-        {/* Results count */}
+        {/* Results count & Clear Filters */}
         <div className="flex items-center justify-between mb-4">
           <p className="text-xs text-white/40">
             {filteredStaticServices.length} decorations found
           </p>
+          {(selectedCat !== 'all' || searchQuery.trim()) && (
+            <button
+              onClick={() => {
+                setSelectedCat('all');
+                setSearchQuery('');
+              }}
+              className="text-xs font-semibold text-gold-500 hover:text-gold-400 flex items-center gap-1 active:scale-95 transition-all"
+            >
+              <X className="w-3.5 h-3.5" /> Clear Filters
+            </button>
+          )}
         </div>
 
         {/* Services Grid */}

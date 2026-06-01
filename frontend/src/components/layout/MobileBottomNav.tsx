@@ -51,7 +51,7 @@ export default function MobileBottomNav() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0, y: 30 }}
               transition={{ type: 'spring', damping: 20, stiffness: 200 }}
-              className="absolute right-3 bottom-[75px] w-48 bg-luxury-dark border-2 border-gold-500 rounded-2xl p-4 flex flex-col items-center text-center z-[100]"
+              className="absolute right-3 bottom-[75px] w-48 bg-luxury-dark/85 backdrop-blur-md border-2 border-gold-500 rounded-2xl p-4 flex flex-col items-center text-center z-[100]"
               style={{
                 transformOrigin: 'calc(100% - 20px) 100%',
                 boxShadow: '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(201,169,110,0.3)',
@@ -74,6 +74,21 @@ export default function MobileBottomNav() {
               <h3 className="text-sm font-black text-white uppercase tracking-wider mb-1">Need Help?</h3>
               <p className="text-[10px] text-white/70 mb-4">Talk to our decoration experts instantly!</p>
               
+              {/* WhatsApp Chat Option */}
+              <a
+                href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent("Hello Melting Eve! I want to plan an experience.")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setShowPopup(false)}
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-2.5 px-4 rounded-xl text-xs flex items-center justify-center gap-2 mb-2 active:scale-95 transition-transform shadow-[0_4px_12px_rgba(37,211,102,0.2)] hover:opacity-90"
+              >
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.96 9.96 0 0 0 1.333 4.982L2 22l5.202-1.362a9.927 9.927 0 0 0 4.808 1.238h.005c5.504 0 9.99-4.478 9.99-9.988 0-2.67-1.037-5.178-2.92-7.062C17.197 2.943 14.686 2 12.012 2zm6.07 14.137c-.267.756-1.539 1.39-2.128 1.477-.5.075-1.15.138-3.327-.762-2.784-1.153-4.57-3.99-4.708-4.185-.138-.194-1.124-1.493-1.124-2.851 0-1.358.706-2.02.956-2.287.25-.268.55-.333.733-.333.183 0 .367.001.527.008.169.008.397-.064.62.476.228.55.779 1.905.847 2.04.068.136.114.294.022.476-.09.182-.136.294-.273.453-.136.158-.287.353-.409.473-.136.136-.279.284-.12.556.158.272.7 1.15 1.5 1.864.103.092.203.182.298.268.742.665 1.365.88 1.626 1.012.26.133.413.111.568-.068.156-.18.665-.773.844-1.037.18-.264.358-.22.603-.13.245.09 1.558.734 1.826.868.267.133.445.2.512.313.067.112.067.653-.2 1.409z" />
+                </svg>
+                WhatsApp Chat
+              </a>
+
+              {/* Call Now Option */}
               <a
                 href={`tel:${PHONE_NUMBER}`}
                 onClick={() => setShowPopup(false)}
@@ -83,7 +98,7 @@ export default function MobileBottomNav() {
               </a>
               
               {/* Pointing triangle to the call icon */}
-              <div className="absolute -bottom-[10px] right-[24px] w-4 h-4 bg-luxury-dark border-r-2 border-b-2 border-gold-500 transform rotate-45" />
+              <div className="absolute -bottom-[10px] right-[24px] w-4 h-4 bg-luxury-dark/85 backdrop-blur-md border-r-2 border-b-2 border-gold-500 transform rotate-45" />
             </motion.div>
           )}
         </AnimatePresence>

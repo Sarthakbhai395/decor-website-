@@ -15,6 +15,7 @@ import { formatCurrency, getDiscountPercentage } from '@/lib/utils';
 import api from '@/lib/axios';
 import { ALL_STATIC_SERVICES } from '@/components/home/CategoryServiceRows';
 import LuxeSelect from '@/components/shared/LuxeSelect';
+import { cn } from '@/lib/utils';
 
 /* ─── City options ─────────────────────────────────────────────────────────── */
 const CITY_OPTIONS = [
@@ -252,15 +253,16 @@ function AlsoLikeCard({ service }: { service: typeof ALL_STATIC_SERVICES[0] }) {
 }
 
 /* ─── Video-aware main image ───────────────────────────────────────────────── */
-function MediaViewer({ media, activeIdx, onPrev, onNext, discount }: {
+function MediaViewer({ media, activeIdx, onPrev, onNext, discount, isPlayingVideo, setIsPlayingVideo }: {
   media: MediaItem[];
   activeIdx: number;
   onPrev: () => void;
   onNext: () => void;
   discount: number;
+  isPlayingVideo: boolean;
+  setIsPlayingVideo: (play: boolean) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [showVideo, setShowVideo] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const current = media[activeIdx] ?? media[0];
 
@@ -268,69 +270,54 @@ function MediaViewer({ media, activeIdx, onPrev, onNext, discount }: {
     setIsMobile(window.matchMedia('(pointer: coarse)').matches);
   }, []);
 
-  /* Reset video state when slide changes */
+  /* Control video playback and preloading */
   useEffect(() => {
-    setShowVideo(false);
-    videoRef.current?.pause();
-  }, [activeIdx]);
+    const video = videoRef.current;
+    if (!video) return;
 
-  const startVideo = () => {
-    setShowVideo(true);
-    setTimeout(() => {
-      videoRef.current?.play().catch(() => {});
-    }, 50);
-  };
+    // Explicitly set muted to true to bypass browser autoplay blocks
+    video.muted = true;
 
-  const stopVideo = () => {
-    videoRef.current?.pause();
-    setShowVideo(false);
-  };
+    if (isPlayingVideo) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [isPlayingVideo, activeIdx]);
 
   return (
     <div
-      className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-luxury-dark cursor-pointer select-none"
-      onMouseEnter={() => !isMobile && startVideo()}
-      onMouseLeave={() => !isMobile && stopVideo()}
-      onClick={() => isMobile && (showVideo ? stopVideo() : startVideo())}
+      className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-luxury-dark cursor-pointer select-none group"
+      onMouseEnter={() => setIsPlayingVideo(true)}
+      onMouseLeave={() => setIsPlayingVideo(false)}
+      onClick={() => setIsPlayingVideo(!isPlayingVideo)}
     >
       {/* Static image */}
-      <AnimatePresence mode="wait">
-        <motion.img
-          key={`img-${activeIdx}`}
-          initial={{ opacity: 0, scale: 1.03 }}
-          animate={{ opacity: showVideo ? 0 : 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
-          src={current.image}
-          alt="Decoration preview"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-      </AnimatePresence>
-
-      {/* Video overlay */}
-      <AnimatePresence>
-        {showVideo && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
-            className="absolute inset-0"
-          >
-            <video
-              ref={videoRef}
-              src={current.video}
-              className="w-full h-full object-cover"
-              muted
-              loop
-              playsInline
-            />
-          </motion.div>
+      <img
+        src={current.image}
+        alt="Decoration preview"
+        className={cn(
+          "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
+          isPlayingVideo ? "opacity-0 pointer-events-none" : "opacity-100"
         )}
-      </AnimatePresence>
+      />
+
+      {/* Persistent video tag for preloading & instant playing */}
+      <video
+        ref={videoRef}
+        src={current.video}
+        className={cn(
+          "absolute inset-0 w-full h-full object-cover transition-opacity duration-300",
+          isPlayingVideo ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+        muted
+        loop
+        playsInline
+        preload="auto"
+      />
 
       {/* Play hint (mobile only, when not playing) */}
-      {isMobile && !showVideo && (
+      {isMobile && !isPlayingVideo && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="w-12 h-12 rounded-full bg-black/50 flex items-center justify-center"
             style={{ border: '1px solid rgba(201,169,110,0.5)', backdropFilter: 'blur(6px)' }}>
@@ -340,7 +327,7 @@ function MediaViewer({ media, activeIdx, onPrev, onNext, discount }: {
       )}
 
       {/* Hover hint (desktop) */}
-      {!isMobile && !showVideo && (
+      {!isPlayingVideo && (
         <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
           style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)', border: '1px solid rgba(201,169,110,0.3)' }}>
           <Play className="w-3 h-3 text-gold-400 fill-gold-400" />
@@ -389,6 +376,7 @@ export default function ServiceDetailPage() {
   const [activeIdx, setActiveIdx] = useState(0);
   const [showShare, setShowShare] = useState(false);
   const [city, setCity] = useState('delhi');
+  const [isPlayingVideo, setIsPlayingVideo] = useState(false);
 
   useEffect(() => {
     if (!slug) return;
@@ -484,12 +472,17 @@ export default function ServiceDetailPage() {
               onPrev={() => setActiveIdx((p) => (p - 1 + mediaList.length) % mediaList.length)}
               onNext={() => setActiveIdx((p) => (p + 1) % mediaList.length)}
               discount={discount}
+              isPlayingVideo={isPlayingVideo}
+              setIsPlayingVideo={setIsPlayingVideo}
             />
 
             {/* Thumbnail strip — 5 sub-images */}
             <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
               {mediaList.map((m, i) => (
-                <button key={i} onClick={() => setActiveIdx(i)}
+                <button key={i}
+                  onClick={() => { setActiveIdx(i); setIsPlayingVideo(true); }}
+                  onMouseEnter={() => { setActiveIdx(i); setIsPlayingVideo(true); }}
+                  onMouseLeave={() => { setIsPlayingVideo(false); }}
                   className={`relative flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 transition-all ${
                     i === activeIdx ? 'border-gold-500 opacity-100' : 'border-transparent opacity-50 hover:opacity-75'
                   }`}>
@@ -666,13 +659,30 @@ export default function ServiceDetailPage() {
             <p className="text-base font-bold text-gold-500 leading-none">{formatCurrency(effectivePrice)}</p>
           </div>
 
-          {/* Main CTA → booking-contact page */}
-          <Link href={`/booking-contact?service=${slug}`} className="flex-1 min-w-0">
-            <button className="w-full btn-luxury flex items-center justify-center gap-1.5 py-2.5 text-[11px] sm:text-sm px-1 sm:px-4">
+          {/* Main CTA → WhatsApp Booking instead of booking-contact redirect */}
+          <button 
+            onClick={() => {
+              const origin = typeof window !== 'undefined' ? window.location.origin : '';
+              const productUrl = `${origin}/services/${slug}`;
+              const imageLinks = mediaList.map((m, idx) => `• Image ${idx + 1}: ${m.image}`).join('\n');
+              
+              const message = `${productUrl}\n\n` +
+                `*NEW BOOKING REQUEST - Luxe Celebrations*\n\n` +
+                `*Service:* ${title}\n` +
+                `*Price:* ${formatCurrency(effectivePrice)}\n` +
+                `*Selected City:* ${city.charAt(0).toUpperCase() + city.slice(1)}\n\n` +
+                `*Product Images:*\n${imageLinks}\n\n` +
+                `Hello Luxe Celebrations! I want to instantly book this experience. Please confirm the slot availability and booking process.`;
+              
+              window.open(`https://wa.me/916306059912?text=${encodeURIComponent(message)}`, '_blank');
+            }}
+            className="flex-1 min-w-0"
+          >
+            <div className="w-full btn-luxury flex items-center justify-center gap-1.5 py-2.5 text-[11px] sm:text-sm px-1 sm:px-4 cursor-pointer">
               <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
               <span className="whitespace-nowrap font-bold uppercase tracking-wider">instant book</span>
-            </button>
-          </Link>
+            </div>
+          </button>
 
           {/* Call — compact icon + label */}
           <a href="tel:+916306059912"
