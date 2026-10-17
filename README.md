@@ -1,394 +1,349 @@
-<<<<<<< HEAD
-# ✨ Luxe Celebrations — Premium Decoration & Surprise Planning Platform
+# ✨ Luxe Celebrations (House of Jashn)
 
-A production-ready, full-stack luxury decoration and surprise planning web application built with Next.js 15, Node.js, and MongoDB Atlas.
+<div align="center">
+
+![Next.js 15](https://img.shields.io/badge/Next.js%2015-black?style=for-the-badge&logo=next.js&logoColor=white)
+![React 19](https://img.shields.io/badge/React%2019-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![TypeScript](https://img.shields.io/badge/TypeScript%205-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js%2020-43853D?style=for-the-badge&logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)
+
+<br/>
+
+**A production-ready, full-stack luxury event decor, surprise planning, and celebration booking platform.**  
+Crafted with high-converting luxury aesthetics, rich animations, micro-interactions, complete booking lifecycle management, and a dedicated admin command center.
+
+[Key Features](#-key-features) • [Architecture](#-architecture) • [Getting Started](#-getting-started) • [API Reference](#-api-endpoints) • [Troubleshooting](#-troubleshooting--gotchas) • [Contributing](#-contributing)
+
+</div>
 
 ---
 
-## 🏗️ Project Structure
+## 📖 Overview
+
+**Luxe Celebrations** (House of Jashn) is an end-to-end fullstack platform built for luxury celebration planners, balloon artists, proposal designers, and event organizers. 
+
+The application solves common event industry pain points:
+- **Instant Booking & Slot Selection**: Customers pick their celebration date, time window, venue location, and customize service add-ons in real time.
+- **Budget Deals (< ₹2499)**: Tailored quick-browse collections for birthday surprises, intimate candlelight setups, and budget-friendly romantic experiences.
+- **Multi-City & Location Awareness**: Dynamic city picker (Delhi NCR, Mumbai, Bangalore, Jaipur, etc.) ensuring localized pricing and service availability.
+- **Enterprise-Grade Admin Suite**: Full control over bookings, order statuses, custom coupons, service catalogs, reviews, customer directories, and revenue analytics.
+
+---
+
+## ✨ Key Features
+
+### 🌟 Public Storefront & Client Experience
+- **Hero & Golden Flare Animations**: High-performance Framer Motion and GSAP animations, golden flares, glassmorphism UI tokens, and luxury dark theme typography (`Cormorant Garamond` + `Playfair Display` + `Inter`).
+- **Dynamic Catalog & Filtering**: Filter by category (Birthdays, Anniversaries, Proposals, Baby Showers, Romantic Setups), city, budget ranges, and ratings.
+- **Instant Booking Engine**: Multi-step booking checkout with date-time slot selection, venue address management, custom add-ons, and coupon redemptions.
+- **City Picker**: Pop-up modal saving user location preferences in local storage and tailoring services.
+- **WhatsApp Direct Connect**: Floating smart CTA for instant concierge support and custom quote requests.
+- **SEO Optimized**: Dynamic OpenGraph tags, JSON-LD schemas, automated XML `sitemap.ts`, and `robots.ts`.
+
+### 👤 Customer Portal (`/dashboard`)
+- **Booking Tracker**: Real-time status pipeline (`Pending` → `Confirmed` → `In-Progress` → `Completed` / `Cancelled`).
+- **Wishlist**: Save favorite luxury themes for upcoming anniversaries or milestones.
+- **Address Book**: Manage multiple celebration venues (Home, Hotel, Banquet Hall, Farmhouse).
+- **Profile & Security**: Update contact info, change passwords, and manage notifications.
+
+### 🛡️ Admin Command Center (`/admin`)
+- **Analytics Dashboard**: Real-time revenue statistics, booking volume graphs with Recharts, and conversion rates.
+- **Booking Operations**: Update booking milestones, assign decorators, review notes, and handle cancellations.
+- **Catalog CMS**: Full CRUD for services, multi-tier pricing, package features, and Cloudinary media uploads.
+- **City & Category Management**: Enable/disable operational cities, manage pincodes, and feature top categories.
+- **Review Moderation**: Approve or filter authentic client feedback and photos.
+- **Coupons & Promotions**: Set percentage/flat discounts, expiry limits, and minimum spend requirements.
+- **Blog Engine**: Publish SEO-driven event guides and decoration ideas.
+
+### 🔒 Enterprise Security & Robust Backend
+- **Dual JWT Authentication**: 15-minute access token + 7-day refresh token rotation with secure HTTP-only cookies.
+- **OTP Verification Flow**: Email verification with 6-digit expiring OTPs (with built-in development simulation mode).
+- **Payment Gateway Ready**: Razorpay payment order generation & signature verification + Stripe international support.
+- **Resilient MongoDB Layer**: Automatic SRV DNS resolution fix for Windows/ISPs + automatic fallback to local MongoDB if cloud Atlas is unreachable.
+- **Security Hardened**: Helmet HTTP headers, Mongo-Sanitize against NoSQL injection, HPP parameter pollution protection, and IP rate limiters.
+
+---
+
+## 🏛️ Architecture
+
+```
+                        +----------------------------+
+                        |   Next.js 15 App Router    |
+                        | (Tailwind, Framer, Zustand)|
+                        +--------------+-------------+
+                                       |
+                         REST / JSON   |   HTTP-Only Cookies
+                                       v
+                        +----------------------------+
+                        |    Node.js + Express API   |
+                        |   (TypeScript, Winston)    |
+                        +--------------+-------------+
+                                       |
+          +----------------------------+----------------------------+
+          |                            |                            |
+          v                            v                            v
++-------------------+        +--------------------+       +-------------------+
+|  MongoDB Atlas    |        |   Cloudinary CDN   |       | Payment Gateways  |
+| (Mongoose + Auto  |        |  (Image/Video CMS) |       | Razorpay / Stripe |
+|  Local Fallback)  |        +--------------------+       +-------------------+
++-------------------+
+```
+
+---
+
+## 📁 Repository Structure
 
 ```
 luxe-celebrations/
-├── frontend/          # Next.js 15 App Router
+├── frontend/                     # Next.js 15 Client Application
 │   ├── src/
 │   │   ├── app/
-│   │   │   ├── (public)/      # Public pages
-│   │   │   ├── (auth)/        # Auth pages
-│   │   │   ├── dashboard/     # User dashboard
-│   │   │   └── admin/         # Admin dashboard
+│   │   │   ├── (auth)/           # Login, Register, OTP Verify, Password Reset
+│   │   │   ├── (public)/         # Services, Budget Deals, Categories, Cities, Blog
+│   │   │   ├── admin/            # Admin Command Dashboard (Analytics, CMS, Bookings)
+│   │   │   ├── dashboard/        # Customer Profile, Bookings, Wishlist, Addresses
+│   │   │   ├── layout.tsx        # Root layout with Theme & Query Providers
+│   │   │   └── globals.css       # Luxury Gold Theme & Utility Classes
 │   │   ├── components/
-│   │   │   ├── home/          # Home page sections
-│   │   │   ├── layout/        # Navbar, Footer
-│   │   │   ├── shared/        # Reusable components
-│   │   │   └── providers/     # Context providers
-│   │   ├── lib/               # Axios, utils
-│   │   ├── store/             # Zustand stores
-│   │   └── types/             # TypeScript types
+│   │   │   ├── home/             # Hero, CategoryGrid, Featured, CityPickerModal
+│   │   │   ├── layout/           # Luxury Navbar, MobileBottomNav, Footer
+│   │   │   ├── shared/           # WhatsAppButton, Badge, Skeleton, Dialogs
+│   │   │   └── ui/               # Radix UI + Shadcn accessible primitives
+│   │   ├── store/                # Zustand client state (auth, cart, city)
+│   │   └── lib/                  # Axios instance, formatting helpers, validations
 │   └── package.json
 │
-└── backend/           # Node.js + Express API
+└── backend/                      # Express.js REST API
     ├── src/
-    │   ├── config/            # DB, Cloudinary
-    │   ├── controllers/       # Route handlers
-    │   ├── middleware/        # Auth, error, rate limit
-    │   ├── models/            # Mongoose models
-    │   ├── routes/            # Express routes
-    │   ├── types/             # TypeScript types
-    │   └── utils/             # Logger, email, helpers
+    │   ├── config/               # Database (DNS + Fallback), Environment validator
+    │   ├── controllers/          # Business logic (Auth, Bookings, Services, Admin)
+    │   ├── middleware/           # JWT verify, Admin guard, RateLimiter, ErrorHandler
+    │   ├── models/               # Mongoose Schemas (User, Service, Booking, etc.)
+    │   ├── routes/               # Express API v1 Route definitions
+    │   ├── utils/                # Winston Logger, Nodemailer & Dev OTP Simulator
+    │   └── server.ts             # Entry point & port collision self-healer
+    ├── .env.example              # Documented environment template
     └── package.json
 ```
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- MongoDB Atlas account
-- Cloudinary account
-- Razorpay account (for payments)
+- [Node.js](https://nodejs.org/) (v18.x or v20.x recommended)
+- [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/)
+- [MongoDB](https://www.mongodb.com/) (Local MongoDB instance or a free MongoDB Atlas cluster)
 
-### 1. Clone & Install
+---
 
+### 1. Clone the Repository
 ```bash
-# Install backend dependencies
+git clone https://github.com/Sarthakbhai395/decor-website-.git
+cd decor-website-
+```
+
+---
+
+### 2. Configure the Backend
+
+Navigate to the `backend` folder and install dependencies:
+```bash
 cd backend
 npm install
+```
 
-# Install frontend dependencies
+Create your `.env` file:
+```bash
+cp .env.example .env
+```
+
+Edit `backend/.env` with your settings:
+```env
+PORT=5000
+NODE_ENV=development
+CLIENT_URL=http://localhost:3000
+
+# Database (Works with local MongoDB or MongoDB Atlas)
+MONGODB_URI=mongodb://127.0.0.1:27017/luxe-celebrations
+
+# Authentication Secrets (generate random 64-char strings)
+JWT_SECRET=your_super_secret_jwt_key_at_least_32_characters_long
+JWT_EXPIRES_IN=15m
+JWT_REFRESH_SECRET=your_super_secret_refresh_key_at_least_32_characters_long
+JWT_REFRESH_EXPIRES_IN=7d
+COOKIE_SECRET=your_cookie_encryption_secret_key_32_chars
+
+# Cloudinary (Media upload)
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_key
+CLOUDINARY_API_SECRET=your_cloudinary_secret
+
+# Email (Optional in development - OTP prints directly to terminal if omitted)
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASS=your_16_char_google_app_password
+EMAIL_FROM=noreply@luxecelebrations.com
+EMAIL_FROM_NAME=Luxe Celebrations
+
+# Payments
+RAZORPAY_KEY_ID=rzp_test_your_key_id
+RAZORPAY_KEY_SECRET=your_razorpay_secret
+```
+
+Start the backend development server:
+```bash
+npm run dev
+```
+*Backend will be running on `http://localhost:5000/api/v1` (Health check at `http://localhost:5000/health`).*
+
+---
+
+### 3. Configure the Frontend
+
+In a new terminal window, navigate to the `frontend` folder:
+```bash
 cd ../frontend
 npm install
 ```
 
-### 2. Environment Setup
-
-**Backend** — copy `.env.example` to `.env`:
+Create your `.env.local` file:
 ```bash
-cp backend/.env.example backend/.env
+cp .env.local.example .env.local
 ```
 
-Fill in:
-```env
-NODE_ENV=development
-PORT=5000
-CLIENT_URL=http://localhost:3000
-MONGODB_URI=mongodb+srv://...
-JWT_SECRET=your_32_char_secret
-JWT_REFRESH_SECRET=your_32_char_refresh_secret
-CLOUDINARY_CLOUD_NAME=...
-CLOUDINARY_API_KEY=...
-CLOUDINARY_API_SECRET=...
-SMTP_HOST=smtp.gmail.com
-SMTP_USER=your@gmail.com
-SMTP_PASS=your_app_password
-RAZORPAY_KEY_ID=...
-RAZORPAY_KEY_SECRET=...
-STRIPE_SECRET_KEY=sk_test_...
-```
-
-**Frontend** — copy `.env.local.example` to `.env.local`:
-```bash
-cp frontend/.env.local.example frontend/.env.local
-```
-
-Fill in:
+Add your frontend environment variables:
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:5000/api/v1
-NEXT_PUBLIC_RAZORPAY_KEY_ID=...
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+NEXT_PUBLIC_RAZORPAY_KEY_ID=rzp_test_your_key_id
 ```
 
-### 3. Run Development Servers
-
+Start the Next.js development server:
 ```bash
-# Terminal 1 — Backend
-cd backend
-npm run dev
-
-# Terminal 2 — Frontend
-cd frontend
 npm run dev
 ```
-
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:5000/api/v1
-- Health check: http://localhost:5000/health
-
----
-
-## 📦 Tech Stack
-
-### Frontend
-| Technology | Purpose |
-|---|---|
-| Next.js 15 | React framework with App Router |
-| TypeScript | Type safety |
-| Tailwind CSS | Utility-first styling |
-| Framer Motion | Animations |
-| GSAP | Advanced animations |
-| Shadcn UI | Component library |
-| Zustand | State management |
-| React Hook Form + Zod | Form validation |
-| Axios | HTTP client |
-| Swiper.js | Carousels |
-| Recharts | Analytics charts |
-
-### Backend
-| Technology | Purpose |
-|---|---|
-| Node.js + Express | Server framework |
-| MongoDB Atlas | Database |
-| Mongoose | ODM |
-| JWT | Authentication |
-| bcryptjs | Password hashing |
-| Cloudinary | Image/video storage |
-| Multer | File uploads |
-| Nodemailer | Email service |
-| Razorpay | Payment gateway |
-| Stripe | International payments |
-| Winston | Logging |
-| Helmet | Security headers |
-
----
-
-## 🔐 Authentication Flow
-
-1. User registers → OTP sent to email
-2. User verifies OTP → Account activated
-3. Login → Access token (15min) + Refresh token (7d) in HTTP-only cookies
-4. Auto-refresh via interceptor when access token expires
-5. Role-based access: `user` | `admin`
+*Open [http://localhost:3000](http://localhost:3000) in your browser.*
 
 ---
 
 ## 📡 API Endpoints
 
-### Auth
-```
-POST /api/v1/auth/register
-POST /api/v1/auth/verify-otp
-POST /api/v1/auth/resend-otp
-POST /api/v1/auth/login
-POST /api/v1/auth/refresh-token
-POST /api/v1/auth/logout
-POST /api/v1/auth/forgot-password
-POST /api/v1/auth/reset-password
-GET  /api/v1/auth/me
-```
+### 🔐 Authentication (`/api/v1/auth`)
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| `POST` | `/register` | Create account & dispatch OTP | Public |
+| `POST` | `/verify-otp` | Verify email OTP & issue JWT tokens | Public |
+| `POST` | `/resend-otp` | Re-generate and send new OTP | Public |
+| `POST` | `/login` | Authenticate with email & password | Public |
+| `POST` | `/refresh-token`| Rotate access token via HTTP-only refresh cookie | Public |
+| `POST` | `/logout` | Invalidate session & clear cookies | Authenticated |
+| `POST` | `/forgot-password` | Request password reset email | Public |
+| `POST` | `/reset-password` | Set new password with token | Public |
+| `GET`  | `/me` | Retrieve currently logged-in user profile | Authenticated |
 
-### Services
-```
-GET    /api/v1/services
-GET    /api/v1/services/featured
-GET    /api/v1/services/:slug
-GET    /api/v1/services/:slug/related
-POST   /api/v1/services          [Admin]
-PUT    /api/v1/services/:id      [Admin]
-DELETE /api/v1/services/:id      [Admin]
-```
+### 🎈 Services (`/api/v1/services`)
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| `GET` | `/` | List services with filters, sorting, search & pagination | Public |
+| `GET` | `/featured` | Get curated showcase services for homepage | Public |
+| `GET` | `/:slug` | Retrieve complete details, pricing tiers & add-ons | Public |
+| `GET` | `/:slug/related` | Retrieve related decoration packages | Public |
+| `POST` | `/` | Create a new service package with images | Admin |
+| `PUT` | `/:id` | Update service details or pricing | Admin |
+| `DELETE` | `/:id` | Remove a service package | Admin |
 
-### Bookings
-```
-POST   /api/v1/bookings
-POST   /api/v1/bookings/verify-payment
-GET    /api/v1/bookings/my-bookings
-GET    /api/v1/bookings/:id
-PATCH  /api/v1/bookings/:id/cancel
-GET    /api/v1/bookings          [Admin]
-PATCH  /api/v1/bookings/:id/status [Admin]
-```
+### 📅 Bookings (`/api/v1/bookings`)
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| `POST` | `/` | Create new reservation with selected slots | Customer |
+| `POST` | `/verify-payment` | Verify Razorpay HMAC signature & confirm booking | Customer |
+| `GET` | `/my-bookings` | Fetch user's booking history | Customer |
+| `GET` | `/:id` | Fetch specific booking summary and invoice | Customer / Admin |
+| `PATCH`| `/:id/cancel` | Cancel booking according to policy | Customer |
+| `GET` | `/` | Fetch all bookings with filtering & search | Admin |
+| `PATCH`| `/:id/status` | Update execution status (`Confirmed`, `Completed`, etc.) | Admin |
 
-### Users
-```
-PUT    /api/v1/users/profile
-PUT    /api/v1/users/change-password
-POST   /api/v1/users/addresses
-GET    /api/v1/users/wishlist
-POST   /api/v1/users/wishlist/:serviceId
-GET    /api/v1/users/notifications
-GET    /api/v1/users             [Admin]
-```
-
-### Admin
-```
-GET /api/v1/admin/analytics
-GET /api/v1/admin/revenue-report
-```
+### 👑 Admin Management (`/api/v1/admin`)
+| Method | Endpoint | Description | Access |
+|---|---|---|---|
+| `GET` | `/analytics` | Revenue graphs, top categories, booking statistics | Admin |
+| `GET` | `/revenue-report` | Detailed revenue breakdown & date-range export | Admin |
+| `GET` | `/customers` | View registered customer directory | Admin |
 
 ---
 
-## 🌐 Deployment
+## 🛠️ Troubleshooting & Gotchas
 
-### Frontend (Vercel)
+<details>
+<summary><b>1. MongoDB <code>querySrv ECONNREFUSED</code> on Windows</b></summary>
 
-1. Push to GitHub
-2. Import project in Vercel
-3. Set environment variables
-4. Deploy
+**Why it happens**: Windows network adapters and certain home Wi-Fi routers refuse DNS queries for SRV records used by `mongodb+srv://`.  
+**How it is fixed**: In `backend/src/config/database.ts`, the backend automatically overrides Node's DNS resolver to use Google DNS (`8.8.8.8`) and Cloudflare DNS (`1.1.1.1`).  
+Furthermore, if MongoDB Atlas authentication fails, the server automatically connects to your local MongoDB (`127.0.0.1:27017`) so development is never interrupted.
+</details>
 
-```bash
-# Build check
-cd frontend
-npm run build
-```
+<details>
+<summary><b>2. Email & OTP in Development Mode</b></summary>
 
-### Backend (Render)
+You **do not** need a Gmail App Password to test signup or login locally!  
+If `SMTP_PASS` is omitted or left as default in `backend/.env`, the backend operates in **Dev Simulation Mode**:
+- OTPs are logged directly in the terminal:  
+  `🔑 [DEV OTP] Verification OTP for user@example.com: 482910`
+- You can copy the code directly into the `/verify-otp` page to complete authentication.
+</details>
 
-1. Push to GitHub
-2. Create Web Service on Render
-3. Set environment variables
-4. Build command: `npm install && npm run build`
-5. Start command: `npm start`
+<details>
+<summary><b>3. Port 5000 Already in Use</b></summary>
 
-### MongoDB Atlas
-
-1. Create cluster at mongodb.com/atlas
-2. Add IP whitelist (0.0.0.0/0 for Render)
-3. Create database user
-4. Copy connection string to `MONGODB_URI`
+The backend has a built-in auto-healing utility in `server.ts`. If an old zombie process is holding port 5000, it automatically executes a platform-specific port kill (`taskkill` on Windows or `fuser` on Linux) and successfully binds to port 5000 without requiring manual intervention.
+</details>
 
 ---
 
-## 🎨 Design System
+## 🚢 Deployment Guide
 
-### Colors
-- **Gold**: `#c9a96e` → `#f0d080` (primary luxury accent)
-- **Black**: `#0a0a0a` (background)
-- **Dark**: `#111111` (cards)
-- **Rose**: `#f4c2c2` → `#e879a0` (romantic accent)
-- **Purple**: `#a855f7` (secondary accent)
+### Frontend Deployment (Vercel)
+1. Push your code to GitHub.
+2. Link your repository in [Vercel](https://vercel.com).
+3. Set the Root Directory to `frontend`.
+4. Add Environment Variables:
+   - `NEXT_PUBLIC_API_URL`: Your deployed backend URL (e.g., `https://api.yourdomain.com/api/v1`).
+   - `NEXT_PUBLIC_RAZORPAY_KEY_ID`: Your live/test Razorpay Key.
+5. Deploy!
 
-### Typography
-- **Display**: Cormorant Garamond (headings)
-- **Serif**: Playfair Display (subheadings)
-- **Sans**: Inter (body text)
-
-### Components
-- Glassmorphism cards with gold borders
-- Gradient text effects
-- Floating balloon animations
-- Luxury hover effects with elevation
-- Skeleton loaders for all async content
-
----
-
-## 📱 Pages
-
-### Public
-- `/` — Home (Hero, Stats, Categories, Featured, How It Works, Gallery, Testimonials, Cities, Blog, CTA)
-- `/services` — All services with filters
-- `/services/[slug]` — Service detail + booking
-- `/categories` — All categories
-- `/categories/[slug]` — Category services
-- `/gallery` — Photo gallery
-- `/about` — About us
-- `/blog` — Blog listing
-- `/blog/[slug]` — Blog post
-- `/cities/[slug]` — City-specific services
-- `/contact` — Contact form
-- `/faq` — FAQ accordion
-- `/privacy-policy` — Privacy policy
-- `/terms` — Terms & conditions
-
-### Auth
-- `/login` — Login form
-- `/signup` — Registration form
-- `/verify-otp` — OTP verification
-- `/forgot-password` — Password reset request
-- `/reset-password` — New password form
-
-### User Dashboard
-- `/dashboard/bookings` — My bookings
-- `/dashboard/wishlist` — Saved services
-- `/dashboard/notifications` — Notifications
-- `/dashboard/profile` — Profile settings
-- `/dashboard/addresses` — Saved addresses
-- `/dashboard/payments` — Payment history
-
-### Admin Dashboard
-- `/admin/analytics` — Revenue & booking charts
-- `/admin/bookings` — All bookings management
-- `/admin/customers` — User management
-- `/admin/services` — Service CRUD
-- `/admin/categories` — Category management
-- `/admin/cities` — City management
-- `/admin/reviews` — Review moderation
-- `/admin/coupons` — Coupon management
-- `/admin/blogs` — Blog management
-- `/admin/notifications` — Send notifications
-
----
-
-## 🔧 Scripts
-
-```bash
-# Backend
-npm run dev      # Development with hot reload
-npm run build    # Compile TypeScript
-npm start        # Production server
-
-# Frontend
-npm run dev      # Development server
-npm run build    # Production build
-npm start        # Production server
-npm run lint     # ESLint
-```
-
----
-
-## 📧 Email Templates
-
-- Welcome / OTP verification
-- Booking confirmation
-- Password reset
-- Booking status updates
-
----
-
-## 🛡️ Security Features
-
-- JWT with HTTP-only cookies
-- Refresh token rotation
-- Rate limiting (global + per-route)
-- MongoDB injection sanitization
-- Helmet security headers
-- CORS configuration
-- bcrypt password hashing (12 rounds)
-- Input validation with Zod/express-validator
-
----
-
-## 📊 Database Models
-
-- **User** — Auth, profile, addresses, wishlist
-- **Service** — Packages with images, pricing, SEO
-- **Category** — Service categories
-- **City** — Supported cities
-- **Booking** — Full booking lifecycle
-- **Review** — Verified reviews with approval
-- **Coupon** — Discount codes
-- **Blog** — SEO-optimized blog posts
-- **Notification** — User notifications
+### Backend Deployment (Render / Railway / VPS)
+1. Create a new Web Service and link your GitHub repository.
+2. Set Root Directory to `backend`.
+3. Set Build Command: `npm install && npm run build`
+4. Set Start Command: `npm start`
+5. Configure your Environment Variables matching `backend/.env.example`.
+6. Whitelist Render/Railway IP addresses (`0.0.0.0/0`) in your **MongoDB Atlas Network Access**.
 
 ---
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create feature branch: `git checkout -b feature/amazing-feature`
-3. Commit: `git commit -m 'Add amazing feature'`
-4. Push: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+Contributions make the open-source community an inspiring place to learn, inspire, and create:
+
+1. **Fork** the project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'feat: Add AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a **Pull Request**
 
 ---
 
-## 📄 License
+## 📜 License
 
-MIT License — see [LICENSE](LICENSE) for details.
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ---
 
-**Built with ❤️ for unforgettable celebrations**
-=======
-# decor-website-
->>>>>>> 08883359fa519fed7624d4b3a4f0fe80317c2a38
+<div align="center">
+  <sub>Built with ❤️ by <a href="https://github.com/Sarthakbhai395">Sarthak Bhatnagar</a> for unforgettable celebrations.</sub>
+</div>
