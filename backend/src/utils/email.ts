@@ -21,6 +21,20 @@ const createTransporter = () => {
 };
 
 export const sendEmail = async (options: EmailOptions): Promise<void> => {
+  const isConfigured =
+    process.env.SMTP_USER &&
+    !process.env.SMTP_USER.includes('your_email') &&
+    process.env.SMTP_PASS &&
+    !process.env.SMTP_PASS.includes('your_');
+
+  if (!isConfigured) {
+    if (process.env.NODE_ENV === 'development') {
+      logger.info(`📧 [DEV EMAIL] To: ${options.to} | Subject: ${options.subject}`);
+      return;
+    }
+    throw new Error('Email could not be sent: SMTP credentials not configured');
+  }
+
   try {
     const transporter = createTransporter();
     await transporter.sendMail({
@@ -38,6 +52,9 @@ export const sendEmail = async (options: EmailOptions): Promise<void> => {
 };
 
 export const sendOTPEmail = async (email: string, otp: string, name: string): Promise<void> => {
+  if (process.env.NODE_ENV === 'development') {
+    logger.info(`🔑 [DEV OTP] Verification OTP for ${email} (${name}): ${otp}`);
+  }
   await sendEmail({
     to: email,
     subject: 'Verify Your Email - Luxe Celebrations',

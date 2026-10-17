@@ -30,10 +30,10 @@ const CITIES = [
 
 // Unique landmark images per city
 const CITY_IMAGES: Record<string, string> = {
-  'delhi':      'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=280&q=80&auto=format',
-  'noida':      'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=280&q=80&auto=format',
-  'ghaziabad':  'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=280&q=80&auto=format',
-  'faridabad':  'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=280&q=80&auto=format',
+  'delhi': 'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=280&q=80&auto=format',
+  'noida': 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=280&q=80&auto=format',
+  'ghaziabad': 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=280&q=80&auto=format',
+  'faridabad': 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?w=280&q=80&auto=format',
 };
 
 export default function CityPickerModal() {
@@ -124,11 +124,10 @@ export default function CityPickerModal() {
                       key={city.slug}
                       whileTap={{ scale: 0.96 }}
                       onClick={() => handleSelect(city)}
-                      className={`relative rounded-2xl overflow-hidden group transition-all duration-200 ${
-                        isSelected
+                      className={`relative rounded-2xl overflow-hidden group transition-all duration-200 ${isSelected
                           ? 'ring-2 ring-gold-500 ring-offset-2 ring-offset-[#111]'
                           : 'hover:ring-1 hover:ring-gold-500/50'
-                      }`}
+                        }`}
                     >
                       {/* Monument image */}
                       <div className="relative h-32 overflow-hidden">
@@ -168,7 +167,7 @@ export default function CityPickerModal() {
               {/* Footer */}
               <div className="px-6 pb-6">
                 <p className="text-center text-xs text-white/30">
-                  More cities coming soon ✨
+                  More cities coming soon
                 </p>
               </div>
             </motion.div>

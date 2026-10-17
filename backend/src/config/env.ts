@@ -53,13 +53,16 @@ export const validateEnv = (): void => {
   }
 
   // ── Optional warnings ──────────────────────────────────────────────────────
-  const smtpUser = process.env.SMTP_USER ?? '';
-  const smtpPass = process.env.SMTP_PASS ?? '';
-  if (!smtpUser || smtpUser.includes('your_email')) {
-    warnings.push('  ⚠ SMTP_USER not set — email features will not work');
-  }
-  if (!smtpPass || smtpPass.includes('your_')) {
-    warnings.push('  ⚠ SMTP_PASS not set — email features will not work');
+  // In development, SMTP credentials are simulated in console (OTP shown in logs)
+  if (process.env.NODE_ENV === 'production') {
+    const smtpUser = process.env.SMTP_USER ?? '';
+    const smtpPass = process.env.SMTP_PASS ?? '';
+    if (!smtpUser || smtpUser.includes('your_email')) {
+      warnings.push('  ⚠ SMTP_USER not set — email features will not work');
+    }
+    if (!smtpPass || smtpPass.includes('your_')) {
+      warnings.push('  ⚠ SMTP_PASS not set — email features will not work');
+    }
   }
 
   // ── Output ─────────────────────────────────────────────────────────────────

@@ -1,5 +1,15 @@
+import dns from 'dns';
 import mongoose from 'mongoose';
 import logger from '../utils/logger';
+
+// ─── DNS Resolution Fix for Windows / SRV Records ────────────────────────────
+// Windows local DNS often fails or refuses SRV queries (querySrv ECONNREFUSED).
+// Setting public DNS servers (Google 8.8.8.8, Cloudflare 1.1.1.1) fixes this permanently.
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+  // Ignore if unable to override DNS servers in this runtime
+}
 
 // ─── MongoDB Atlas URI Validator ──────────────────────────────────────────────
 // Common cause of "bad auth: authentication failed":
@@ -28,29 +38,7 @@ const connectDB = async (): Promise<void> => {
     process.exit(1);
   }
 
-  try {
-    validateMongoUri(mongoUri);
-
-    const conn = await mongoose.connect(mongoUri, {
-      // Connection pool — 10 is good for a single-instance API server
-      maxPoolSize: 10,
-      minPoolSize: 2,
-      // How long to wait for a server to be found before throwing
-      serverSelectionTimeoutMS: 10_000,
-      // How long a socket can be idle before being closed
-      socketTimeoutMS: 45_000,
-      // Heartbeat frequency — keeps the connection alive
-      heartbeatFrequencyMS: 10_000,
-      // Retry writes on transient network errors
-      retryWrites: true,
-      // Write concern: majority ensures data is written to primary + replica
-      w: 'majority',
-    });
-
-    logger.info(`✅ MongoDB Connected: ${conn.connection.host}`);
-    logger.info(`📦 Database: ${conn.connection.name}`);
-
-    // ── Connection event listeners ──────────────────────────────────────────
+  const setupListeners = () => {
     mongoose.connection.on('error', (err: Error) => {
       logger.error(`MongoDB connection error: ${err.message}`);
     });
@@ -75,7 +63,49 @@ const connectDB = async (): Promise<void> => {
       logger.info('MongoDB connection closed (SIGTERM)');
       process.exit(0);
     });
+  };
 
+  try {
+    validateMongoUri(mongoUri);
+
+    let conn: typeof mongoose;
+    try {
+      conn = await mongoose.connect(mongoUri, {
+        maxPoolSize: 10,
+        minPoolSize: 2,
+        serverSelectionTimeoutMS: 5_000,
+        socketTimeoutMS: 45_000,
+        heartbeatFrequencyMS: 10_000,
+        retryWrites: true,
+        w: 'majority',
+      });
+    } catch (primaryError) {
+      const primaryMsg = primaryError instanceof Error ? primaryError.message : String(primaryError);
+
+      // In development mode, if cloud MongoDB fails (bad auth, network, etc.), try local MongoDB
+      if (
+        process.env.NODE_ENV === 'development' &&
+        !mongoUri.includes('127.0.0.1') &&
+        !mongoUri.includes('localhost')
+      ) {
+        logger.warn(`Remote MongoDB connection failed (${primaryMsg}). Attempting fallback to local MongoDB...`);
+        const localUri = 'mongodb://127.0.0.1:27017/luxe-celebrations';
+        conn = await mongoose.connect(localUri, {
+          maxPoolSize: 10,
+          minPoolSize: 2,
+          serverSelectionTimeoutMS: 3_000,
+          socketTimeoutMS: 45_000,
+        });
+        logger.info(`✅ Connected to fallback Local MongoDB: ${conn.connection.host}`);
+      } else {
+        throw primaryError;
+      }
+    }
+
+    logger.info(`✅ MongoDB Connected: ${conn.connection.host}`);
+    logger.info(`📦 Database: ${conn.connection.name}`);
+
+    setupListeners();
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     logger.error(`MongoDB connection failed: ${message}`);

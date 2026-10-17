@@ -13,7 +13,7 @@ import { globalLimiter } from './middleware/rateLimiter';
 import { errorHandler, notFound } from './middleware/errorHandler';
 import logger from './utils/logger';
 
-// ─── Validate environment variables before anything else ──────────────────────
+// ─── Environment validation & setup ──────────────────────────────────────────
 validateEnv();
 
 // Routes
